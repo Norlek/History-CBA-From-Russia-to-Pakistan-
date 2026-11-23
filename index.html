@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ghuman Family Migration Q&A Bot</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(160deg, #090d16 0%, #141026 55%, #0c1724 100%);
+      color: #f3f5f8;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 720px;
+      background: linear-gradient(145deg, rgba(24, 28, 46, 0.96), rgba(14, 17, 30, 0.96));
+      border: 2px solid #7c4dff;
+      padding: 22px;
+    }
+
+    .header {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+    }
+
+    .header h1 {
+      font-size: 20px;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .header p {
+      font-size: 13px;
+      color: #b8c0d4;
+    }
+
+    .quick-questions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .chip {
+      background: #1d2238;
+      color: #e4e8f5;
+      border: 1px solid #4c5680;
+      padding: 6px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .chip:hover {
+      border-color: #9d7bff;
+      background: #272e4b;
+    }
+
+    .chat-box {
+      height: 360px;
+      overflow-y: auto;
+      background: #0b0e18;
+      border: 1px solid #2d3554;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .msg {
+      max-width: 88%;
+      padding: 10px 12px;
+      font-size: 14px;
+      line-height: 1.45;
+      border: 1px solid transparent;
+    }
+
+    .msg.bot {
+      align-self: flex-start;
+      background: linear-gradient(135deg, #1b2038, #24193d);
+      border-color: #6c47e6;
+      color: #f4f6fb;
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      background: #182b3a;
+      border-color: #3a7ca5;
+      color: #ffffff;
+    }
+
+    .meta {
+      display: block;
+      font-size: 11px;
+      color: #9aa5c2;
+      margin-top: 5px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 11px 12px;
+      font-size: 14px;
+      background: #0b0e18;
+      color: #ffffff;
+      border: 1px solid #525d8a;
+      outline: none;
+    }
+
+    input[type="text"]:focus {
+      border-color: #9d7bff;
+    }
+
+    button.send-btn {
+      padding: 11px 18px;
+      font-size: 14px;
+      font-weight: bold;
+      background: #7c4dff;
+      color: #ffffff;
+      border: 1px solid #9d7bff;
+      cursor: pointer;
+    }
+
+    button.send-btn:hover {
+      background: #6938f5;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="header">
+      <h1>Ghuman Family Migration Q&amp;A Bot</h1>
+      <p>Answers teacher questions using only presentation facts and sources. Does not guess outside records.</p>
+    </div>
+
+    <div class="quick-questions">
+      <button class="chip" type="button" data-q="What happened in the 1947 Partition?">1947 Partition</button>
+      <button class="chip" type="button" data-q="How are census records used as a primary source?">Census records</button>
+      <button class="chip" type="button" data-q="Where is Punjab located?">Punjab</button>
+      <button class="chip" type="button" data-q="What are the Eurasia migration corridors?">Eurasia routes</button>
+      <button class="chip" type="button" data-q="What sources are used in this project?">Sources</button>
+    </div>
+
+    <div id="chatBox" class="chat-box">
+      <div class="msg bot">
+        Ask a question about the Ghuman family migration presentation, Eurasia corridors, Punjab, census records, or the 1947 Partition.
+        <span class="meta">Source: Presentation Notes</span>
+      </div>
+    </div>
+
+    <form id="chatForm" class="input-row">
+      <input id="questionInput" type="text" placeholder="Type a teacher question here..." autocomplete="off" required />
+      <button class="send-btn" type="submit">Ask</button>
+    </form>
+  </div>
+
+  <script>
+    const KNOWLEDGE_BASE = [
+      {
+        keywords: ["partition", "1947", "border", "india", "pakistan", "displacement", "refugee", "train"],
+        answer: "In 1947, British India was partitioned into the independent states of India and Pakistan. The new border divided the Punjab region, causing large-scale migration, displacement, and loss of property and family records.",
+        source: "Historical records on the 1947 Partition of British India and Punjab"
+      },
+      {
+        keywords: ["punjab", "river", "indus", "five rivers", "farmland", "settlement", "sialkot", "lahore", "amritsar"],
+        answer: "Punjab is a fertile river basin region in South Asia named for its major rivers, including the Indus river system. Historical settlement in Punjab was closely tied to river valleys, farmland, trade routes, and shifting political borders.",
+        source: "Geographic and historical records of the Punjab region"
+      },
+      {
+        keywords: ["eurasia", "russia", "steppe", "corridor", "silk road", "central asia", "trade", "route", "khyber"],
+        answer: "Eurasia is the connected landmass of Europe and Asia. Across history, people and goods moved along steppe corridors, river valleys, mountain passes, and Silk Road trade networks connecting Central Asia, Russia, and South Asia.",
+        source: "Historical cartography and Eurasian migration/trade records"
+      },
+      {
+        keywords: ["census", "primary source", "record", "archive", "evidence", "document", "ledger"],
+        answer: "A census is an official population count and record collected by a government. In history research, census records, land ledgers, and official archives act as primary sources that help check dates, places, and population movements.",
+        source: "Historical census and archival primary source methods"
+      },
+      {
+        keywords: ["oral history", "family", "story", "stories", "memory", "generation", "ghuman", "surname", "clan"],
+        answer: "Family history combines documented records with spoken memories passed down across generations. When written records are missing or incomplete, historians separate confirmed archival evidence from unverified family accounts.",
+        source: "Historical source evaluation and family history methods"
+      },
+      {
+        keywords: ["source", "sources", "bibliography", "reference", "citation", "evidence"],
+        answer: "This project uses historical maps, geographic records of Eurasia and Punjab, official census and archival documents, and historical accounts of the 1947 Partition.",
+        source: "Slide 33: Sources Used in This Presentation"
+      }
+    ];
+
+    const chatBox = document.getElementById("chatBox");
+    const chatForm = document.getElementById("chatForm");
+    const questionInput = document.getElementById("questionInput");
+
+    function addMessage(text, sender, sourceText = "") {
+      const div = document.createElement("div");
+      div.className = `msg ${sender}`;
+      div.textContent = text;
+
+      if (sender === "bot" && sourceText) {
+        const meta = document.createElement("span");
+        meta.className = "meta";
+        meta.textContent = `Source: ${sourceText}`;
+        div.appendChild(meta);
+      }
+
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function answerQuestion(rawQuestion) {
+      const q = rawQuestion.toLowerCase().trim();
+      if (!q) return;
+
+      addMessage(rawQuestion, "user");
+
+      let bestMatch = null;
+      let highestScore = 0;
+
+      for (const item of KNOWLEDGE_BASE) {
+        let score = 0;
+        for (const kw of item.keywords) {
+          if (q.includes(kw)) {
+            score += kw.includes(" ") ? 2 : 1;
+          }
+        }
+        if (score > highestScore) {
+          highestScore = score;
+          bestMatch = item;
+        }
+      }
+
+      if (bestMatch && highestScore > 0) {
+        addMessage(bestMatch.answer, "bot", bestMatch.source);
+      } else {
+        addMessage(
+          "That specific detail is not covered in the presentation facts loaded here. Try asking about Eurasia routes, Punjab, census records, the 1947 Partition, or sources.",
+          "bot",
+          "Presentation Scope Limit"
+        );
+      }
+    }
+
+    chatForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const q = questionInput.value;
+      questionInput.value = "";
+      answerQuestion(q);
+    });
+
+    document.querySelectorAll(".chip").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        answerQuestion(chip.getAttribute("data-q"));
+      });
+    });
+  </script>
+</body>
+</html>
