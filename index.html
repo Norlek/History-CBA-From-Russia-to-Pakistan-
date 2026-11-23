@@ -3,134 +3,155 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Russia to Pakistan Migration CBA — History Q&amp;A Bot</title>
+  <title>From Russia to Pakistan? — CBA History Q&amp;A Bot</title>
   <style>
     :root {
-      --bg-dark: #070912;
-      --bg-mid: #120c24;
-      --bg-accent: #091824;
-      --panel-bg: rgba(16, 19, 36, 0.84);
-      --msg-bot: rgba(34, 22, 66, 0.88);
-      --msg-user: rgba(15, 42, 62, 0.88);
-      --border-neon: #8b5cf6;
-      --border-soft: rgba(167, 139, 250, 0.35);
-      --text-main: #f5f7ff;
-      --text-muted: #b5bdd6;
-      --accent-glow: #a855f7;
+      --bg-base: #0a0c10;
+      --bg-elevated: #121620;
+      --bg-card: #161b28;
+      --bg-user: #142230;
+      --border-main: #2d3548;
+      --border-accent: #7c8aa6;
+      --text-primary: #f3f5f8;
+      --text-secondary: #b6c0d4;
+      --text-muted: #8893a8;
+      --pad-outer: 20px;
+      --pad-box: 22px;
+      --chat-h: 380px;
+      --title-fs: 22px;
+      --body-fs: 14px;
+    }
+
+    html[data-device="tablet"] {
+      --pad-outer: 16px;
+      --pad-box: 18px;
+      --chat-h: 350px;
+      --title-fs: 20px;
+      --body-fs: 14px;
+    }
+
+    html[data-device="mobile"] {
+      --pad-outer: 10px;
+      --pad-box: 14px;
+      --chat-h: 310px;
+      --title-fs: 18px;
+      --body-fs: 13.5px;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      border-radius: 0;
       font-family: "Segoe UI", Arial, Helvetica, sans-serif;
     }
 
     body {
       min-height: 100vh;
-      background:
-        radial-gradient(circle at 15% 20%, rgba(139, 92, 246, 0.22), transparent 40%),
-        radial-gradient(circle at 85% 80%, rgba(56, 189, 248, 0.14), transparent 45%),
-        linear-gradient(155deg, var(--bg-dark) 0%, var(--bg-mid) 52%, var(--bg-accent) 100%);
-      color: var(--text-main);
+      background: linear-gradient(180deg, #090b0f 0%, #10141e 55%, #0b0e14 100%);
+      color: var(--text-primary);
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 18px;
+      padding: var(--pad-outer);
     }
 
-    .container {
+    .deck-shell {
       width: 100%;
-      max-width: 780px;
-      background: var(--panel-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 2px solid var(--border-neon);
-      box-shadow: 0 0 28px rgba(139, 92, 246, 0.25);
-      padding: 22px;
+      max-width: 820px;
+      background: var(--bg-elevated);
+      border: 2px solid var(--border-accent);
+      padding: var(--pad-box);
     }
 
-    .header {
-      border-bottom: 1px solid var(--border-soft);
-      padding-bottom: 14px;
-      margin-bottom: 14px;
+    .top-bar {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
       gap: 12px;
       flex-wrap: wrap;
+      border-bottom: 1px solid var(--border-main);
+      padding-bottom: 14px;
+      margin-bottom: 14px;
     }
 
-    .header h1 {
-      font-size: 20px;
-      letter-spacing: 0.4px;
-      color: #ffffff;
+    .title-block h1 {
+      font-size: var(--title-fs);
+      font-weight: 700;
+      color: var(--text-primary);
       margin-bottom: 4px;
     }
 
-    .header p {
+    .title-block p {
       font-size: 13px;
-      color: var(--text-muted);
+      color: var(--text-secondary);
+      line-height: 1.4;
     }
 
-    .controls {
+    .toolbar {
       display: flex;
       gap: 8px;
-      align-items: center;
       flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .badge,
+    select,
+    .btn-ghost {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border: 1px solid var(--border-main);
+      padding: 6px 10px;
+      font-size: 12px;
     }
 
     select,
-    .small-btn {
-      background: rgba(10, 13, 26, 0.9);
-      color: var(--text-main);
-      border: 1px solid var(--border-soft);
-      padding: 6px 10px;
-      font-size: 12px;
+    .btn-ghost {
       cursor: pointer;
     }
 
     select:hover,
-    .small-btn:hover {
-      border-color: var(--accent-glow);
+    .btn-ghost:hover {
+      border-color: var(--border-accent);
     }
 
-    .key-bar {
+    .key-row {
       display: none;
       gap: 8px;
       margin-bottom: 12px;
     }
 
-    .key-bar.active {
+    .key-row.open {
       display: flex;
+      flex-wrap: wrap;
     }
 
-    .quick-prompts {
+    .quick-list {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
       margin-bottom: 14px;
     }
 
-    .chip {
-      background: rgba(28, 22, 54, 0.85);
-      color: #ede9fe;
-      border: 1px solid var(--border-soft);
-      padding: 6px 11px;
+    .q-btn {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border: 1px solid var(--border-main);
+      padding: 7px 11px;
       font-size: 12px;
       cursor: pointer;
     }
 
-    .chip:hover {
-      border-color: var(--accent-glow);
-      background: rgba(59, 34, 115, 0.9);
+    .q-btn:hover {
+      border-color: var(--border-accent);
+      background: #1d2436;
     }
 
-    .chat-window {
-      height: 390px;
+    .chat-panel {
+      height: var(--chat-h);
       overflow-y: auto;
-      background: rgba(7, 10, 20, 0.88);
-      border: 1px solid var(--border-soft);
+      background: var(--bg-base);
+      border: 1px solid var(--border-main);
       padding: 14px;
       display: flex;
       flex-direction: column;
@@ -138,432 +159,413 @@
       margin-bottom: 14px;
     }
 
-    .message {
-      max-width: 88%;
-      padding: 11px 14px;
-      font-size: 14px;
+    .msg {
+      max-width: 90%;
+      padding: 11px 13px;
+      font-size: var(--body-fs);
       line-height: 1.5;
       white-space: pre-wrap;
     }
 
-    .message.bot {
+    .msg.bot {
       align-self: flex-start;
-      background: linear-gradient(135deg, var(--msg-bot), rgba(20, 27, 52, 0.92));
-      border: 1px solid rgba(168, 85, 247, 0.65);
-      color: var(--text-main);
+      background: var(--bg-card);
+      border: 1px solid var(--border-main);
+      color: var(--text-primary);
     }
 
-    .message.user {
+    .msg.user {
       align-self: flex-end;
-      background: linear-gradient(135deg, var(--msg-user), rgba(19, 28, 56, 0.92));
-      border: 1px solid rgba(125, 211, 252, 0.55);
-      color: #ffffff;
+      background: var(--bg-user);
+      border: 1px solid #3c5673;
+      color: var(--text-primary);
     }
 
-    .tag {
+    .msg-meta {
       display: block;
       margin-top: 6px;
       font-size: 11px;
-      color: #c4b5fd;
+      color: var(--text-muted);
     }
 
-    .input-form {
+    .ask-form {
       display: flex;
       gap: 10px;
+    }
+
+    html[data-device="mobile"] .ask-form {
+      flex-direction: column;
     }
 
     input[type="text"],
     input[type="password"] {
       flex: 1;
-      padding: 11px 13px;
-      font-size: 14px;
-      background: rgba(7, 10, 20, 0.92);
-      color: #ffffff;
-      border: 1px solid var(--border-soft);
+      padding: 11px 12px;
+      font-size: var(--body-fs);
+      background: var(--bg-base);
+      color: var(--text-primary);
+      border: 1px solid var(--border-main);
       outline: none;
     }
 
     input:focus {
-      border-color: var(--accent-glow);
+      border-color: var(--border-accent);
     }
 
-    .send-btn {
+    .btn-send {
       padding: 11px 20px;
-      font-size: 14px;
+      font-size: var(--body-fs);
       font-weight: 600;
-      background: linear-gradient(135deg, #7c3aed, #5b21b6);
-      color: #ffffff;
-      border: 1px solid #c4b5fd;
+      background: #232d42;
+      color: var(--text-primary);
+      border: 1px solid var(--border-accent);
       cursor: pointer;
     }
 
-    .send-btn:hover {
-      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+    .btn-send:hover {
+      background: #2e3b57;
     }
 
-    .send-btn:disabled {
+    .btn-send:disabled {
       opacity: 0.55;
       cursor: not-allowed;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <div>
-        <h1>Russia to Pakistan Migration CBA — History Q&amp;A</h1>
-        <p>Answers questions according to the CBA of history from Russia/Eurasia to Pakistan migration.</p>
+  <main class="deck-shell">
+    <header class="top-bar">
+      <div class="title-block">
+        <h1>From Russia to Pakistan? — History CBA Q&amp;A</h1>
+        <p>Checking old maps and history records for the Ghuman family</p>
       </div>
-      <div class="controls">
-        <select id="providerSelect" aria-label="Model Provider">
-          <option value="pollinations">Free Model (Pollinations)</option>
+      <div class="toolbar">
+        <span id="deviceBadge" class="badge">Device: Detecting...</span>
+        <select id="providerSelect" aria-label="Model Source">
+          <option value="pollinations">Free API (Pollinations)</option>
           <option value="openrouter">Free Router (OpenRouter)</option>
         </select>
-        <button type="button" id="clearMemoryBtn" class="small-btn">Reset Memory</button>
+        <button type="button" id="resetBtn" class="btn-ghost">Clear Memory</button>
       </div>
-    </div>
+    </header>
 
-    <div id="keyBar" class="key-bar">
+    <div id="keyRow" class="key-row">
       <input
         type="password"
-        id="openrouterKeyInput"
+        id="orKeyInput"
         placeholder="Optional OpenRouter API key (sk-or-v1-...) for openrouter/free"
       />
-      <button type="button" id="saveKeyBtn" class="small-btn">Save Key</button>
+      <button type="button" id="saveKeyBtn" class="btn-ghost">Save Key</button>
     </div>
 
-    <div class="quick-prompts">
-      <button type="button" class="chip" data-q="Who created this presentation?">Creator</button>
-      <button type="button" class="chip" data-q="How did migration routes connect Russia, Eurasia, and South Asia?">Eurasia to South Asia</button>
-      <button type="button" class="chip" data-q="What happened to Punjab during the 1947 Partition?">1947 Partition &amp; Punjab</button>
-      <button type="button" class="chip" data-q="How do census and archival records help trace family migration?">Census &amp; Archives</button>
+    <div class="quick-list">
+      <button type="button" class="q-btn" data-q="Who created this presentation?">Creator</button>
+      <button type="button" class="q-btn" data-q="What does the presentation say about moving from Russia to Pakistan?">Russia to Pakistan</button>
+      <button type="button" class="q-btn" data-q="What do the 1894 Gazetteer and 1911 Census say about Ghuman?">1894 &amp; 1911 Records</button>
+      <button type="button" class="q-btn" data-q="What happened in the 1947 Partition of Punjab?">1947 Partition</button>
     </div>
 
-    <div id="chatWindow" class="chat-window">
-      <div class="message bot">
-        I am a bot to answer questions and answers according to the CBA of history from russian to pakistan migration. Ask me about the migration routes, Punjab, census records, the 1947 Partition, or who created this presentation.
-        <span class="tag">CBA History Bot • Session Memory Active</span>
+    <section id="chatPanel" class="chat-panel" aria-live="polite">
+      <div class="msg bot">
+        I am a bot to answer questions and answers according to the CBA of history from russian to pakistan migration.
+        <span class="msg-meta">CBA Presentation Deck • Session Memory Active</span>
       </div>
-    </div>
+    </section>
 
-    <form id="chatForm" class="input-form">
+    <form id="askForm" class="ask-form">
       <input
         type="text"
         id="questionInput"
-        placeholder="Ask a question about the CBA history presentation..."
+        placeholder="Ask a question about the CBA presentation..."
         autocomplete="off"
         required
       />
-      <button type="submit" id="sendBtn" class="send-btn">Ask</button>
+      <button type="submit" id="sendBtn" class="btn-send">Ask</button>
     </form>
-  </div>
+  </main>
 
   <script>
     const CREATOR_NAME = "Mohammad Hassan";
     const BOT_IDENTITY = "I am a bot to answer questions and answers according to the CBA of history from russian to pakistan migration.";
 
-    const SYSTEM_PROMPT = `
-You are a specialized history assistant for a Classroom-Based Assessment (CBA) presentation on migration from Russia/Eurasia to Pakistan (including Ghuman family migration history, Central Asian/Eurasian corridors, Punjab settlement, census/archival records, and the 1947 Partition).
-
-Strict rules you must follow at all times:
-1. Identity: Never say you are Gemini, an AI created by Google, or a large language model. If asked who you are or what you do, say: "${BOT_IDENTITY}"
-2. Creator questions: If the user asks who created the presentation, who made this, who built it, or any question about the creator/author/student behind the presentation, answer clearly that ${CREATOR_NAME} created the presentation.
-3. Topic scope: Only answer questions related to the CBA of history from Russia/Eurasia to Pakistan migration (Eurasia, Russia, Central Asia, trade/migration corridors, Punjab, rivers/settlement, census records, archives, oral/family history, the 1947 Partition, or the creator/presentation itself). If a question is unrelated to these topics (such as video games, sports, cooking, random trivia, coding unrelated to the CBA, etc.), respond strictly with: Question not related
-4. Memory: Use the conversation history provided in messages so you remember what the user and assistant said earlier in this session.
-5. Tone: Keep answers clear, accurate, factual, and easy for a school CBA presentation.
+    const CBA_CONTEXT = `
+Presentation Title: From Russia to Pakistan? Checking old maps and history records for the Ghuman family. Created by: Mohammad Hassan.
+- Main Question: Family stories say early people moved south from Russia to Pakistan; history books and maps check that claim with real records.
+- Distance & Travel: Russia to Punjab is more than 4,500 km across cold land and high mountains. Moves across Asia took many years and families stayed near water and crops before moving on.
+- Oral Stories vs Written Books: The Russia story has no dates or written papers. Sialkot District Gazetteer (1894) lists the Ghuman clan in Delhi, Jammu, and Sialkot.
+- Proof & Checks: Historians need real dates, place names, and written records with the family name; right now no written record shows the Ghuman family leaving Russia. Three checks: when people moved, towns passed, and written books listing the name.
+- Reasons for Migration: Farm land, trade, wars, or droughts/lack of water.
+- Eurasia & Silk Roads: Central Asia sits between northern Asia and South Asia (Samarkand, Bukhara for over 2,000 years); Silk Roads linked Central Asia, Afghanistan, and northern India; mountain gaps like the Khyber Pass lead into plains; four parts of long land trips: wide open plains, Central Asia towns, mountain passes, and river land in Punjab. Road maps show travel was possible, not that one family walked from Russia.
+- Punjab & Ghuman Records: A Glossary of the Tribes and Castes of the Punjab (1911) names the Ghuman group in northern India and Punjab. Sialkot District Gazetteer (1894) says early ancestors lived near Delhi before Raja Sanpal Janjua moved to Jammu, and his descendant Raja Ghumman moved into Sialkot and started the Ghuman home. From Sialkot, 21 Ghuman branches built farms in Gujranwala, Gurdaspur, Amritsar, and Lyallpur.
+- 1911 Census & Spellings: Census of India 1911 (Punjab Volume XIV) counted 7,579 Ghuman people in Sialkot District alone, plus over twelve villages in Gurdaspur and Sangrur. Spellings include Ghuman, Ghumman, or Ghamman.
+- 1947 Partition & Later Moves: In August 1947 a new border split Punjab between Pakistan and India; about 14 million people crossed new borders in 1947; Sialkot ended up in Pakistan and Gurdaspur in India. Starting in the 1950s, Ghuman families moved from Punjab to Britain, Ireland, Canada, the US, and Gulf countries.
+- Methods & Sources: Oral history with elders, four main record sets (1911 Punjab Census, Sialkot and Gurdaspur district books, UK 1947 files, FamilySearch/Ancestry), checking map years, UNESCO Silk Roads Programme, Encyclopaedia Britannica, and The National Archives (UK).
 `.trim();
 
-    const LOCAL_FACTS = [
+    const SYSTEM_PROMPT = `
+You answer questions for a school history CBA presentation.
+${CBA_CONTEXT}
+
+Strict rules:
+1. If asked who you are, what you are, or whether you are Gemini, respond with: "${BOT_IDENTITY}" Never mention Gemini or Google.
+2. If asked who created the presentation, who made it, or any question about the creator/author, answer that ${CREATOR_NAME} created the presentation.
+3. Only answer questions related to the CBA of history from Russia/Eurasia to Pakistan migration (including the Ghuman family records, Punjab, 1911 census, 1947 Partition, post-1950 migration, historical research/maps/sources, or the presentation/creator). If a question is unrelated to this topic, reply strictly with: Question not related
+4. Remember earlier messages in the conversation and keep answers factual, clear, and concise.
+`.trim();
+
+    const LOCAL_TOPICS = [
       {
-        keys: ["creator", "created", "made", "author", "who made", "who created", "mohammad hassan", "hassan", "student", "presentation"],
-        reply: `${CREATOR_NAME} created this presentation.`
+        keys: ["russia", "4,500", "4500", "cold", "steppe", "eurasia", "silk road", "samarkand", "bukhara", "khyber", "route", "corridor", "migrate", "migration"],
+        reply: `${BOT_IDENTITY} The presentation notes that Russia to Punjab is over 4,500 km across Eurasia, with routes like Central Asia, the Silk Roads, and the Khyber Pass, while no written record currently proves the Ghuman family moved from Russia.`
       },
       {
-        keys: ["russia", "eurasia", "steppe", "silk road", "central asia", "corridor", "route", "migration"],
-        reply: `${BOT_IDENTITY} Across history, movement across Eurasia and between Russia, Central Asia, and South Asia followed steppe corridors, river basins, mountain passes, and long-distance trade routes.`
+        keys: ["1894", "gazetteer", "1911", "census", "7,579", "7579", "sialkot", "gurdaspur", "gujranwala", "amritsar", "lyallpur", "sangrur", "jammu", "delhi", "sanpal", "ghumman", "ghuman", "punjab", "glossary", "21"],
+        reply: `${BOT_IDENTITY} Punjab records include the 1894 Sialkot District Gazetteer (traced via Delhi and Jammu to Sialkot), the 1911 Glossary naming 21 Ghuman branches across areas like Gujranwala, Gurdaspur, Amritsar, and Lyallpur, and the 1911 Census counting 7,579 Ghuman people in Sialkot District.`
       },
       {
-        keys: ["partition", "1947", "pakistan", "india", "border", "refugee", "displacement"],
-        reply: `${BOT_IDENTITY} In 1947, the Partition of British India divided the region into India and Pakistan and split Punjab across a new border, leading to mass migration, displacement, and major changes for families and local records.`
+        keys: ["1947", "partition", "india", "pakistan", "14 million", "border", "1950", "britain", "ireland", "canada", "gulf"],
+        reply: `${BOT_IDENTITY} In August 1947, the Partition of Punjab between Pakistan and India saw about 14 million people cross new borders and placed Sialkot in Pakistan and Gurdaspur in India; from the 1950s onward, families also moved to places including Britain, Ireland, Canada, the US, and Gulf countries.`
       },
       {
-        keys: ["punjab", "river", "indus", "settlement", "farmland", "ghuman"],
-        reply: `${BOT_IDENTITY} Punjab lies across fertile river valleys in the Indus basin, making agriculture and river trade central to settlement and movement over time.`
-      },
-      {
-        keys: ["census", "archive", "archival", "record", "primary source", "evidence", "oral"],
-        reply: `${BOT_IDENTITY} Historians use census records, land/archival documents, maps, and family/oral accounts together to trace migration while checking what is documented versus passed down by memory.`
+        keys: ["source", "sources", "proof", "evidence", "archive", "archives", "familysearch", "ancestry", "oral", "map", "maps", "spelling", "ghauman", "ghamman"],
+        reply: `${BOT_IDENTITY} The presentation checks oral stories against written records and maps—such as the 1911 Census, district gazetteers, UK National Archives, UNESCO Silk Roads Programme, Encyclopaedia Britannica, and FamilySearch/Ancestry—while noting spelling variations like Ghuman, Ghumman, and Ghamman.`
       }
     ];
 
-    const OFF_TOPIC_HINTS = [
-      "minecraft", "roblox", "fortnite", "valorant", "gta", "football", "soccer", "basketball",
-      "recipe", "cook", "pizza", "movie", "anime", "song", "lyrics", "weather", "stock", "crypto",
-      "math homework", "algebra", "calculus", "tiktok", "youtube shorts"
+    const OFF_TOPIC_WORDS = [
+      "minecraft", "roblox", "fortnite", "football", "soccer", "basketball", "cricket",
+      "recipe", "cook", "pizza", "burger", "movie", "anime", "music", "song", "tiktok",
+      "weather", "temperature", "stock", "bitcoin", "crypto", "algebra", "calculus"
     ];
 
-    const chatWindow = document.getElementById("chatWindow");
-    const chatForm = document.getElementById("chatForm");
+    const chatPanel = document.getElementById("chatPanel");
+    const askForm = document.getElementById("askForm");
     const questionInput = document.getElementById("questionInput");
     const sendBtn = document.getElementById("sendBtn");
     const providerSelect = document.getElementById("providerSelect");
-    const keyBar = document.getElementById("keyBar");
-    const openrouterKeyInput = document.getElementById("openrouterKeyInput");
+    const keyRow = document.getElementById("keyRow");
+    const orKeyInput = document.getElementById("orKeyInput");
     const saveKeyBtn = document.getElementById("saveKeyBtn");
-    const clearMemoryBtn = document.getElementById("clearMemoryBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const deviceBadge = document.getElementById("deviceBadge");
 
-    // Conversation memory stored in session + current state
-    let conversationHistory = [];
+    let history = [];
 
-    function isCreatorQuestion(text) {
-      const q = text.toLowerCase();
+    function detectAndApplyDevice() {
+      const w = window.innerWidth;
+      const touch = navigator.maxTouchPoints > 0 || "ontouchstart" in window;
+      let mode = "desktop";
+      if (w <= 640 || (touch && w <= 768)) {
+        mode = "mobile";
+      } else if (w <= 1024) {
+        mode = "tablet";
+      }
+      document.documentElement.setAttribute("data-device", mode);
+      deviceBadge.textContent = `Device: ${mode.charAt(0).toUpperCase() + mode.slice(1)} (${w}px)`;
+    }
+
+    detectAndApplyDevice();
+    window.addEventListener("resize", detectAndApplyDevice);
+
+    function isCreatorAsk(q) {
+      const s = q.toLowerCase();
       return (
-        q.includes("who created") ||
-        q.includes("who made") ||
-        q.includes("who built") ||
-        q.includes("creator of") ||
-        q.includes("creator") ||
-        q.includes("author") ||
-        q.includes("who is behind") ||
-        q.includes("your creator") ||
-        q.includes("presentation creator")
+        s.includes("who created") ||
+        s.includes("who made") ||
+        s.includes("who built") ||
+        s.includes("creator") ||
+        s.includes("author") ||
+        s.includes("created by") ||
+        s.includes("made this presentation") ||
+        s.includes("who is behind")
       );
     }
 
-    function isIdentityQuestion(text) {
-      const q = text.toLowerCase();
+    function isIdentityAsk(q) {
+      const s = q.toLowerCase();
       return (
-        q.includes("who are you") ||
-        q.includes("what are you") ||
-        q.includes("are you gemini") ||
-        q.includes("your name") ||
-        q.includes("what model")
+        s.includes("who are you") ||
+        s.includes("what are you") ||
+        s.includes("are you gemini") ||
+        s.includes("gemini") ||
+        s.includes("what model")
       );
     }
 
-    function looksClearlyUnrelated(text) {
-      const q = text.toLowerCase();
-      if (isCreatorQuestion(q) || isIdentityQuestion(q)) return false;
-      const onTopicWords = [
+    function isUnrelatedAsk(q) {
+      const s = q.toLowerCase();
+      if (isCreatorAsk(s) || isIdentityAsk(s)) return false;
+      const onTopic = [
         "russia", "russian", "eurasia", "eurasian", "pakistan", "india", "punjab", "partition",
-        "1947", "migration", "migrate", "migrant", "census", "archive", "archival", "record",
-        "history", "historical", "cba", "family", "ghuman", "central asia", "silk road", "border",
-        "river", "indus", "settlement", "source", "oral", "memory", "presentation", "slide"
+        "1947", "1911", "1894", "1950", "ghuman", "ghumman", "ghamman", "sialkot", "gurdaspur",
+        "gujranwala", "amritsar", "lyallpur", "sangrur", "jammu", "delhi", "silk road", "khyber",
+        "samarkand", "bukhara", "census", "gazetteer", "archive", "history", "historical", "cba",
+        "migration", "migrate", "map", "maps", "source", "sources", "family", "oral", "presentation"
       ];
-      const hasTopicWord = onTopicWords.some((w) => q.includes(w));
-      if (hasTopicWord) return false;
-      return OFF_TOPIC_HINTS.some((w) => q.includes(w));
+      if (onTopic.some((w) => s.includes(w))) return false;
+      return OFF_TOPIC_WORDS.some((w) => s.includes(w));
     }
 
-    function appendMessage(text, role, footerTag = "") {
-      const el = document.createElement("div");
-      el.className = `message ${role}`;
-      el.textContent = text;
-
-      if (role === "bot" && footerTag) {
-        const tag = document.createElement("span");
-        tag.className = "tag";
-        tag.textContent = footerTag;
-        el.appendChild(tag);
+    function addBubble(text, role, meta = "") {
+      const div = document.createElement("div");
+      div.className = `msg ${role}`;
+      div.textContent = text;
+      if (role === "bot" && meta) {
+        const span = document.createElement("span");
+        span.className = "msg-meta";
+        span.textContent = meta;
+        div.appendChild(span);
       }
-
-      chatWindow.appendChild(el);
-      chatWindow.scrollTop = chatWindow.scrollHeight;
+      chatPanel.appendChild(div);
+      chatPanel.scrollTop = chatPanel.scrollHeight;
     }
 
-    function sanitizeBotOutput(rawText, userQuestion) {
-      if (isCreatorQuestion(userQuestion)) {
-        return `${CREATOR_NAME} created this presentation.`;
-      }
-      if (isIdentityQuestion(userQuestion)) {
-        return BOT_IDENTITY;
-      }
-      if (!rawText || !rawText.trim()) {
-        return "Question not related";
-      }
-
-      const trimmed = rawText.trim();
-      if (/^question not related[.!]?$/i.test(trimmed)) {
-        return "Question not related";
-      }
-
-      // Strip accidental self-identification as Gemini/Google AI
-      return trimmed
-        .replace(/\b(i am|i'm|as) (an? )?(gemini|google ai|large language model|language model trained by google)\b/gi, BOT_IDENTITY)
-        .trim();
+    function cleanReply(raw, question) {
+      if (isCreatorAsk(question)) return `${CREATOR_NAME} created this presentation.`;
+      if (isIdentityAsk(question)) return BOT_IDENTITY;
+      const text = (raw || "").trim();
+      if (!text) return "Question not related";
+      if (/^question not related[.!]?$/i.test(text)) return "Question not related";
+      return text.replace(/\b(i am|i'm|as) (an? )?(gemini|google ai|large language model|language model)\b/gi, BOT_IDENTITY).trim();
     }
 
-    function fallbackLocalAnswer(userQuestion) {
-      if (isCreatorQuestion(userQuestion)) {
-        return `${CREATOR_NAME} created this presentation.`;
-      }
-      if (isIdentityQuestion(userQuestion)) {
-        return BOT_IDENTITY;
-      }
-      if (looksClearlyUnrelated(userQuestion)) {
-        return "Question not related";
-      }
+    function localAnswer(question) {
+      if (isCreatorAsk(question)) return `${CREATOR_NAME} created this presentation.`;
+      if (isIdentityAsk(question)) return BOT_IDENTITY;
+      if (isUnrelatedAsk(question)) return "Question not related";
 
-      const q = userQuestion.toLowerCase();
+      const s = question.toLowerCase();
       let best = null;
-      let bestScore = 0;
-
-      for (const item of LOCAL_FACTS) {
-        let score = 0;
+      let score = 0;
+      for (const item of LOCAL_TOPICS) {
+        let hit = 0;
         for (const k of item.keys) {
-          if (q.includes(k)) score += 1;
+          if (s.includes(k)) hit += 1;
         }
-        if (score > bestScore) {
-          bestScore = score;
+        if (hit > score) {
+          score = hit;
           best = item;
         }
       }
+      if (best && score > 0) return best.reply;
 
-      if (best && bestScore > 0) {
-        return best.reply;
-      }
-
-      // Check previous turns in memory if user asks a follow-up like "tell me more" or "why"
-      const recentUserText = conversationHistory
+      const recent = history
         .filter((m) => m.role === "user")
         .slice(-3)
         .map((m) => m.content.toLowerCase())
         .join(" ");
-
-      for (const item of LOCAL_FACTS) {
-        if (item.keys.some((k) => recentUserText.includes(k))) {
-          return item.reply;
-        }
+      for (const item of LOCAL_TOPICS) {
+        if (item.keys.some((k) => recent.includes(k))) return item.reply;
       }
-
       return "Question not related";
     }
 
-    async function queryPollinations(messages) {
+    async function callPollinations(messages) {
       const res = await fetch("https://text.pollinations.ai/openai/chat/completions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "openai",
-          messages,
-          temperature: 0.3
-        })
+        body: JSON.stringify({ model: "openai", messages, temperature: 0.25 })
       });
-      if (!res.ok) throw new Error(`Pollinations status ${res.status}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       return data?.choices?.[0]?.message?.content || "";
     }
 
-    async function queryOpenRouter(messages) {
-      const apiKey = (openrouterKeyInput.value || sessionStorage.getItem("or_key") || "").trim();
-      if (!apiKey) throw new Error("Missing OpenRouter API key");
-
+    async function callOpenRouter(messages) {
+      const key = (orKeyInput.value || sessionStorage.getItem("cba_or_key") || "").trim();
+      if (!key) throw new Error("Missing OpenRouter key");
       const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`,
+          "Authorization": `Bearer ${key}`,
           "HTTP-Referer": window.location.href,
-          "X-Title": "Russia to Pakistan Migration CBA Bot"
+          "X-Title": "Russia to Pakistan CBA Bot"
         },
-        body: JSON.stringify({
-          model: "openrouter/free",
-          messages,
-          temperature: 0.3
-        })
+        body: JSON.stringify({ model: "openrouter/free", messages, temperature: 0.25 })
       });
-      if (!res.ok) throw new Error(`OpenRouter status ${res.status}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       return data?.choices?.[0]?.message?.content || "";
     }
 
-    async function generateReply(userQuestion) {
-      if (isCreatorQuestion(userQuestion)) {
-        return { text: `${CREATOR_NAME} created this presentation.`, tag: "CBA Creator Info" };
+    async function getAnswer(question) {
+      if (isCreatorAsk(question)) {
+        return { text: `${CREATOR_NAME} created this presentation.`, meta: "CBA Creator Record" };
       }
-      if (isIdentityQuestion(userQuestion)) {
-        return { text: BOT_IDENTITY, tag: "CBA Bot Identity" };
+      if (isIdentityAsk(question)) {
+        return { text: BOT_IDENTITY, meta: "CBA Bot Identity" };
       }
-      if (looksClearlyUnrelated(userQuestion)) {
-        return { text: "Question not related", tag: "Scope Check" };
+      if (isUnrelatedAsk(question)) {
+        return { text: "Question not related", meta: "Topic Filter" };
       }
 
-      const payloadMessages = [
+      const messages = [
         { role: "system", content: SYSTEM_PROMPT },
-        ...conversationHistory.slice(-12),
-        { role: "user", content: userQuestion }
+        ...history.slice(-14),
+        { role: "user", content: question }
       ];
 
       try {
-        const provider = providerSelect.value;
-        const rawReply =
-          provider === "openrouter"
-            ? await queryOpenRouter(payloadMessages)
-            : await queryPollinations(payloadMessages);
-
-        const cleaned = sanitizeBotOutput(rawReply, userQuestion);
+        const mode = providerSelect.value;
+        const out = mode === "openrouter" ? await callOpenRouter(messages) : await callPollinations(messages);
         return {
-          text: cleaned,
-          tag: provider === "openrouter" ? "OpenRouter Free Router • Memory On" : "Pollinations Free Model • Memory On"
+          text: cleanReply(out, question),
+          meta: mode === "openrouter" ? "OpenRouter Free • Memory On" : "Pollinations Free • Memory On"
         };
-      } catch (err) {
+      } catch (_) {
         return {
-          text: fallbackLocalAnswer(userQuestion),
-          tag: "CBA Knowledge Fallback • Memory On"
+          text: localAnswer(question),
+          meta: "CBA Local Knowledge • Memory On"
         };
       }
     }
 
     providerSelect.addEventListener("change", () => {
-      keyBar.classList.toggle("active", providerSelect.value === "openrouter");
+      keyRow.classList.toggle("open", providerSelect.value === "openrouter");
     });
 
     saveKeyBtn.addEventListener("click", () => {
-      sessionStorage.setItem("or_key", openrouterKeyInput.value.trim());
-      appendMessage("Saved OpenRouter key for this browser tab.", "bot", "Settings");
+      sessionStorage.setItem("cba_or_key", orKeyInput.value.trim());
+      addBubble("Saved OpenRouter key for this browser tab.", "bot", "Settings");
     });
 
-    clearMemoryBtn.addEventListener("click", () => {
-      conversationHistory = [];
-      chatWindow.innerHTML = "";
-      appendMessage(
-        `${BOT_IDENTITY} Conversation memory has been cleared.`,
-        "bot",
-        "Memory Reset"
-      );
+    resetBtn.addEventListener("click", () => {
+      history = [];
+      chatPanel.innerHTML = "";
+      addBubble(`${BOT_IDENTITY} Memory cleared.`, "bot", "Memory Reset");
     });
 
-    chatForm.addEventListener("submit", async (e) => {
+    askForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const question = questionInput.value.trim();
-      if (!question) return;
+      const q = questionInput.value.trim();
+      if (!q) return;
 
       questionInput.value = "";
       sendBtn.disabled = true;
+      addBubble(q, "user");
 
-      appendMessage(question, "user");
-      const loadingMsg = document.createElement("div");
-      loadingMsg.className = "message bot";
-      loadingMsg.textContent = "Checking CBA history knowledge...";
-      chatWindow.appendChild(loadingMsg);
-      chatWindow.scrollTop = chatWindow.scrollHeight;
+      const pending = document.createElement("div");
+      pending.className = "msg bot";
+      pending.textContent = "Checking CBA history records...";
+      chatPanel.appendChild(pending);
+      chatPanel.scrollTop = chatPanel.scrollHeight;
 
-      const result = await generateReply(question);
-      loadingMsg.remove();
+      const res = await getAnswer(q);
+      pending.remove();
 
-      appendMessage(result.text, "bot", result.tag);
-
-      conversationHistory.push({ role: "user", content: question });
-      conversationHistory.push({ role: "assistant", content: result.text });
+      addBubble(res.text, "bot", res.meta);
+      history.push({ role: "user", content: q });
+      history.push({ role: "assistant", content: res.text });
 
       sendBtn.disabled = false;
       questionInput.focus();
     });
 
-    document.querySelectorAll(".chip").forEach((chip) => {
-      chip.addEventListener("click", () => {
-        questionInput.value = chip.getAttribute("data-q");
-        chatForm.dispatchEvent(new Event("submit"));
+    document.querySelectorAll(".q-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        questionInput.value = btn.getAttribute("data-q");
+        askForm.dispatchEvent(new Event("submit"));
       });
     });
   </script>
