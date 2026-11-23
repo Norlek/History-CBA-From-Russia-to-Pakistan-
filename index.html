@@ -6,13 +6,13 @@
   <title>From Russia to Pakistan? — Official CBA Bot</title>
   <style>
     :root {
-      --bg-void: #070311;
-      --bg-deep: #14072b;
-      --bg-purple-glow: #280c4e;
-      --glass-shell: rgba(19, 10, 41, 0.56);
-      --glass-card: rgba(41, 19, 84, 0.56);
-      --glass-user: rgba(71, 25, 132, 0.66);
-      --glass-input: rgba(10, 6, 22, 0.64);
+      --bg-void: #06030e;
+      --bg-deep: #120826;
+      --bg-purple-glow: #260b4b;
+      --glass-shell: rgba(19, 10, 41, 0.54);
+      --glass-card: rgba(41, 19, 84, 0.54);
+      --glass-user: rgba(71, 25, 132, 0.64);
+      --glass-input: rgba(10, 6, 22, 0.62);
       --border-glass: rgba(216, 180, 254, 0.34);
       --border-bright: rgba(233, 213, 255, 0.84);
       --text-primary: #fdfaff;
@@ -596,31 +596,36 @@ ${FULL_CBA_KNOWLEDGE}
 Strict Rules:
 1. Never say you are Gemini, Google AI, or an AI model. If asked who or what you are, respond with: "${BOT_IDENTITY}"
 2. If asked who created the presentation, who made it, or anything about the creator/author, answer that ${CREATOR_NAME} created the presentation.
-3. Users may ask using casual slang, abbreviations, typos, or informal phrasing (e.g., "who made dis", "when did ppl move", "wat abt 1947", "cap or legit", "wats da proof", "u gemini?"). Understand their intent clearly and respond using the CBA facts and historical context.
+3. Users may ask using casual slang, abbreviations, typos, or spelling mistakes (e.g., "who made dis", "when did ppl move", "wat abt 1947", "cap or legit", "wats da proof", "u gemini?"). Understand their intent clearly and respond in clear English using the CBA facts and historical context.
 4. Answer questions thoroughly and clearly using the CBA facts above plus historical knowledge about Eurasia/Russia, Central Asia, Silk Roads, Khyber Pass, Punjab, the 1894 Gazetteer, the 1911 Census, the August 1947 Partition, post-1950 migration, and historical/archival methods.
 5. If a question is clearly unrelated to these topics (such as video games, sports, cooking, movies, anime, weather, or unrelated homework), reply strictly with: Question not related
 6. Remember earlier messages from both the user and assistant in this conversation.
 `.trim();
 
+    // Slang, shorthand, and typo/spelling mistake normalization
     const SLANG_REPLACEMENTS = [
-      [/\bwho\s+(made|built|did|cooked up|dropped|put together)\s+(dis|this|da|it|pres|presentation|cba)\b/gi, "who created this presentation"],
-      [/\b(u|ur|yu|r u|are u)\s+(gemini|google|ai|a bot|bot)\b/gi, "who are you"],
-      [/\b(wat|wut|whut|wt|wht)\b/gi, "what"],
-      [/\b(da|dis|dat|dem|dey|ppl|peeps)\b/gi, "the people"],
-      [/\b(rn|fr|ngl|tbh|idk|idc|smh|bet|legit|cap|no cap|sus)\b/gi, " "],
-      [/\b(abt|bout|ab)\b/gi, "about"],
-      [/\b(bcz|bc|cuz|cos|coz|y|whyy)\b/gi, "why"],
-      [/\b(wen|whn|wenever)\b/gi, "when"],
-      [/\b(whr|wer|wherez)\b/gi, "where"],
-      [/\b(ppl|peeps|folks|fam)\b/gi, "people"],
-      [/\b(movin|moving|moved|bounced|dip|dipped|left|travellin|traveling|traveled)\b/gi, "migration"],
-      [/\b(pak|pkstn)\b/gi, "pakistan"],
-      [/\b(rus|rusia|russiaa)\b/gi, "russia"],
-      [/\b(punjb|punjaab)\b/gi, "punjab"],
-      [/\b(ghumanz|ghumann|ghamaan|ghummanz)\b/gi, "ghuman"]
+      [/\bwho\s+(made|built|did|cooked up|dropped|put together|creted|creatd)\s+(dis|this|da|it|pres|presentation|cba|presntation)\b/gi, "who created this presentation"],
+      [/\b(u|ur|yu|r u|are u|ru)\s+(gemini|google|ai|a bot|bot)\b/gi, "who are you"],
+      [/\b(wat|wut|whut|wt|wht|waht|whta)\b/gi, "what"],
+      [/\b(da|dis|dat|dem|dey|ppl|peeps|peopel|poeple)\b/gi, "the people"],
+      [/\b(rn|fr|ngl|tbh|idk|idc|smh|bet|legit|cap|no cap|sus|pls|plz)\b/gi, " "],
+      [/\b(abt|bout|ab|abotu|aboout)\b/gi, "about"],
+      [/\b(bcz|bc|cuz|cos|coz|becuz|becaus|y|whyy|wht)\b/gi, "why"],
+      [/\b(wen|whn|wenever|whne)\b/gi, "when"],
+      [/\b(whr|wer|wherez|whre)\b/gi, "where"],
+      [/\b(movin|moving|moved|bounced|dip|dipped|left|travellin|traveling|traveled|migrat|migrton|migratioin)\b/gi, "migration"],
+      [/\b(pak|pkstn|pakistn|pakstan)\b/gi, "pakistan"],
+      [/\b(rus|rusia|russiaa|russa|russsia)\b/gi, "russia"],
+      [/\b(punjb|punjaab|punajb|punjba)\b/gi, "punjab"],
+      [/\b(ghumanz|ghumann|ghamaan|ghummanz|ghman|ghuamn|ghmuan)\b/gi, "ghuman"],
+      [/\b(partiton|partion|partitn|partitiom|partiton)\b/gi, "partition"],
+      [/\b(censs|cencus|cnsus|sensis)\b/gi, "census"],
+      [/\b(sialkot|sialkto|siakot|sialkoat)\b/gi, "sialkot"],
+      [/\b(gurdaspur|gurdaspr|gurdaspoor)\b/gi, "gurdaspur"],
+      [/\b(histroy|histry|hsitory|hisotry)\b/gi, "history"]
     ];
 
-    function normalizeSlang(raw) {
+    function normalizeSlangAndTypos(raw) {
       let out = (raw || "").toLowerCase().trim();
       for (const [pattern, replacement] of SLANG_REPLACEMENTS) {
         out = out.replace(pattern, replacement);
@@ -670,7 +675,6 @@ Strict Rules:
     let soundEnabled = true;
     let audioCtx = null;
 
-    // Interactive liquid background simulation behind chat
     let cw = 0;
     let ch = 0;
     let pointer = { x: -9999, y: -9999, active: false };
@@ -728,7 +732,6 @@ Strict Rules:
     function renderLiquidLoop() {
       lctx.clearRect(0, 0, cw, ch);
 
-      // Base dark purple-black gradient matching presentation glow
       const bgGrad = lctx.createRadialGradient(
         cw * 0.5,
         ch * 0.45,
@@ -889,7 +892,6 @@ Strict Rules:
       playLiquidTone(1046.5, 1108.73, 0.34, "sine", 0.024, 0.21);
     }
 
-    // Touching/clicking anywhere feels like touching liquid
     window.addEventListener("pointermove", (e) => {
       pointer.x = e.clientX;
       pointer.y = e.clientY;
@@ -947,12 +949,12 @@ Strict Rules:
     window.addEventListener("resize", syncViewportLayout);
 
     function isGreeting(raw) {
-      const norm = normalizeSlang(raw);
+      const norm = normalizeSlangAndTypos(raw);
       return ["hi", "hello", "hey", "yo", "sup", "what is up", "good morning", "good afternoon", "good evening"].includes(norm);
     }
 
     function asksCreator(raw) {
-      const norm = normalizeSlang(raw);
+      const norm = normalizeSlangAndTypos(raw);
       return (
         norm.includes("who created") ||
         norm.includes("who made") ||
@@ -966,7 +968,7 @@ Strict Rules:
     }
 
     function asksIdentity(raw) {
-      const norm = normalizeSlang(raw);
+      const norm = normalizeSlangAndTypos(raw);
       return (
         norm.includes("who are you") ||
         norm.includes("what are you") ||
@@ -977,7 +979,7 @@ Strict Rules:
     }
 
     function isClearlyUnrelated(raw) {
-      const norm = normalizeSlang(raw);
+      const norm = normalizeSlangAndTypos(raw);
       if (asksCreator(norm) || asksIdentity(norm) || isGreeting(norm)) return false;
 
       const allowedTopicWords = [
@@ -1077,7 +1079,7 @@ Strict Rules:
       }
       if (isClearlyUnrelated(q)) return "Question not related";
 
-      const norm = normalizeSlang(q);
+      const norm = normalizeSlangAndTypos(q);
       let best = null;
       let bestScore = 0;
 
@@ -1096,7 +1098,7 @@ Strict Rules:
       const priorUserText = memory
         .filter((item) => item.role === "user")
         .slice(-4)
-        .map((item) => normalizeSlang(item.content))
+        .map((item) => normalizeSlangAndTypos(item.content))
         .join(" ");
 
       for (const m of DETAILED_TOPICS) {
@@ -1108,7 +1110,7 @@ Strict Rules:
       return "Question not related";
     }
 
-    async function fetchWithTimeout(url, options, timeoutMs = 6500) {
+    async function fetchWithTimeout(url, options, timeoutMs = 5500) {
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), timeoutMs);
       try {
@@ -1146,7 +1148,7 @@ Strict Rules:
                   temperature: 0.25
                 })
               },
-              6500
+              5500
             );
             const contentType = res.headers.get("content-type") || "";
             if (contentType.includes("application/json")) {
@@ -1165,7 +1167,7 @@ Strict Rules:
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(ep.body)
               },
-              6500
+              5500
             );
             const json = await res.json();
             const text = json?.choices?.[0]?.message?.content || "";
