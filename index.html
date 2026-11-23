@@ -6,18 +6,18 @@
   <title>From Russia to Pakistan? — Official CBA Bot</title>
   <style>
     :root {
-      --bg-void: #06030e;
-      --bg-deep: #120826;
-      --bg-mid: #1f0d42;
-      --glass-shell: rgba(20, 12, 42, 0.56);
-      --glass-card: rgba(42, 22, 86, 0.54);
-      --glass-user: rgba(74, 28, 134, 0.64);
-      --glass-input: rgba(11, 7, 24, 0.62);
-      --border-glass: rgba(226, 194, 255, 0.34);
-      --border-bright: rgba(233, 213, 255, 0.82);
+      --bg-void: #070311;
+      --bg-deep: #14072b;
+      --bg-purple-glow: #280c4e;
+      --glass-shell: rgba(19, 10, 41, 0.56);
+      --glass-card: rgba(41, 19, 84, 0.56);
+      --glass-user: rgba(71, 25, 132, 0.66);
+      --glass-input: rgba(10, 6, 22, 0.64);
+      --border-glass: rgba(216, 180, 254, 0.34);
+      --border-bright: rgba(233, 213, 255, 0.84);
       --text-primary: #fdfaff;
-      --text-secondary: #e7d8ff;
-      --text-muted: #bba4e6;
+      --text-secondary: #e5d4ff;
+      --text-muted: #b69ee3;
       --blur-heavy: 34px;
       --blur-card: 22px;
       --outer-pad: 22px;
@@ -58,10 +58,10 @@
     body {
       min-height: 100vh;
       background:
-        radial-gradient(circle at 15% 18%, rgba(168, 85, 247, 0.42), transparent 44%),
-        radial-gradient(circle at 85% 24%, rgba(192, 132, 252, 0.3), transparent 48%),
-        radial-gradient(circle at 50% 90%, rgba(126, 34, 206, 0.36), transparent 52%),
-        linear-gradient(155deg, var(--bg-void) 0%, var(--bg-deep) 50%, var(--bg-mid) 100%);
+        radial-gradient(circle at 16% 18%, rgba(126, 34, 206, 0.36), transparent 46%),
+        radial-gradient(circle at 84% 22%, rgba(107, 33, 168, 0.28), transparent 48%),
+        radial-gradient(circle at 52% 96%, rgba(147, 51, 234, 0.34), transparent 52%),
+        linear-gradient(160deg, var(--bg-void) 0%, var(--bg-deep) 52%, var(--bg-purple-glow) 100%);
       color: var(--text-primary);
       display: flex;
       justify-content: center;
@@ -70,7 +70,7 @@
       overflow-x: hidden;
     }
 
-    .liquid-field {
+    .liquid-backdrop {
       position: fixed;
       inset: 0;
       pointer-events: none;
@@ -78,78 +78,42 @@
       z-index: 0;
     }
 
-    .liquid-blob {
+    #liquidCanvas {
       position: absolute;
-      filter: blur(56px);
-      opacity: 0.58;
-      will-change: transform, border-radius;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
     }
 
-    .blob-a {
-      width: 440px;
-      height: 440px;
-      top: -90px;
-      left: -80px;
-      background: radial-gradient(circle at 30% 30%, rgba(192, 132, 252, 0.65), rgba(126, 34, 206, 0.25));
-      animation: morphLiquidA 14s ease-in-out infinite alternate;
+    .touch-ripple {
+      position: fixed;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      pointer-events: none;
+      z-index: 999;
+      transform: translate(-50%, -50%) scale(0.2);
+      border: 2px solid rgba(233, 213, 255, 0.88);
+      background: radial-gradient(circle, rgba(216, 180, 254, 0.42), rgba(147, 51, 234, 0.06) 70%, transparent 100%);
+      box-shadow: 0 0 24px rgba(192, 132, 252, 0.55), inset 0 0 12px rgba(255, 255, 255, 0.35);
+      animation: liquidTouchExpand 0.68s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    .blob-b {
-      width: 480px;
-      height: 480px;
-      bottom: -120px;
-      right: -90px;
-      background: radial-gradient(circle at 65% 65%, rgba(168, 85, 247, 0.6), rgba(88, 28, 135, 0.22));
-      animation: morphLiquidB 17s ease-in-out infinite alternate;
-    }
-
-    .blob-c {
-      width: 340px;
-      height: 340px;
-      top: 42%;
-      left: 52%;
-      background: radial-gradient(circle at 50% 50%, rgba(216, 180, 254, 0.35), rgba(147, 51, 234, 0.14));
-      animation: morphLiquidC 12s ease-in-out infinite alternate;
-    }
-
-    @keyframes morphLiquidA {
+    @keyframes liquidTouchExpand {
       0% {
-        border-radius: 42% 58% 63% 37% / 44% 39% 61% 56%;
-        transform: translate3d(0, 0, 0) scale(1);
+        opacity: 0.95;
+        transform: translate(-50%, -50%) scale(0.25, 0.35);
+        border-radius: 55% 45% 60% 40% / 45% 55% 45% 55%;
       }
-      50% {
-        border-radius: 61% 39% 41% 59% / 55% 62% 38% 45%;
-        transform: translate3d(38px, 24px, 0) scale(1.09);
+      55% {
+        opacity: 0.65;
+        border-radius: 44% 56% 42% 58% / 58% 42% 56% 44%;
       }
       100% {
-        border-radius: 36% 64% 52% 48% / 60% 35% 65% 40%;
-        transform: translate3d(16px, -18px, 0) scale(0.96);
-      }
-    }
-
-    @keyframes morphLiquidB {
-      0% {
-        border-radius: 56% 44% 38% 62% / 47% 58% 42% 53%;
-        transform: translate3d(0, 0, 0) scale(1);
-      }
-      50% {
-        border-radius: 40% 60% 57% 43% / 63% 41% 59% 37%;
-        transform: translate3d(-34px, -28px, 0) scale(1.08);
-      }
-      100% {
-        border-radius: 64% 36% 46% 54% / 38% 54% 46% 62%;
-        transform: translate3d(-14px, 20px, 0) scale(0.97);
-      }
-    }
-
-    @keyframes morphLiquidC {
-      0% {
-        border-radius: 50% 50% 45% 55% / 55% 45% 55% 45%;
-        transform: translate3d(-50%, -50%, 0) scale(0.95);
-      }
-      100% {
-        border-radius: 38% 62% 60% 40% / 42% 58% 42% 58%;
-        transform: translate3d(-44%, -56%, 0) scale(1.12);
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(4.2, 4.2);
+        border-radius: 50%;
       }
     }
 
@@ -164,13 +128,22 @@
       -webkit-backdrop-filter: blur(var(--blur-heavy)) saturate(180%);
       border: 1.5px solid var(--border-bright);
       box-shadow:
-        0 28px 80px rgba(0, 0, 0, 0.65),
+        0 28px 80px rgba(0, 0, 0, 0.68),
         inset 0 2px 0 rgba(255, 255, 255, 0.28),
-        inset 0 -10px 24px rgba(168, 85, 247, 0.12),
-        0 0 48px rgba(168, 85, 247, 0.26);
+        inset 0 -10px 24px rgba(168, 85, 247, 0.14),
+        0 0 48px rgba(147, 51, 234, 0.28);
       padding: var(--inner-pad);
       overflow: hidden;
+      transition: transform 0.38s cubic-bezier(0.22, 1.45, 0.36, 1), box-shadow 0.35s ease;
       animation: liquidEmerge 0.82s cubic-bezier(0.22, 1.35, 0.36, 1) both, shellRippleIdle 7s ease-in-out 0.9s infinite;
+    }
+
+    .liquid-shell.liquid-jiggle {
+      transform: scale(0.992, 1.008);
+      box-shadow:
+        0 30px 84px rgba(0, 0, 0, 0.72),
+        inset 0 2px 0 rgba(255, 255, 255, 0.35),
+        0 0 60px rgba(192, 132, 252, 0.42);
     }
 
     .liquid-shell::before {
@@ -185,7 +158,7 @@
         90deg,
         transparent,
         rgba(233, 213, 255, 0.09),
-        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0.18),
         rgba(233, 213, 255, 0.09),
         transparent
       );
@@ -271,7 +244,7 @@
       padding: 8px 15px;
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      transition: transform 0.26s cubic-bezier(0.22, 1.4, 0.36, 1), background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      transition: transform 0.32s cubic-bezier(0.22, 1.55, 0.36, 1), background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     }
 
     .pill-badge {
@@ -289,13 +262,13 @@
     }
 
     .pill-sound:hover {
-      transform: translateY(-2px) scale(1.03);
+      transform: translateY(-2px) scale(1.05, 0.96);
       border-color: var(--border-bright);
       color: #ffffff;
     }
 
     .pill-sound:active {
-      transform: scale(0.93);
+      transform: scale(0.88, 1.12);
     }
 
     .pill-sound.active {
@@ -344,11 +317,15 @@
       white-space: pre-wrap;
       backdrop-filter: blur(var(--blur-card)) saturate(170%);
       -webkit-backdrop-filter: blur(var(--blur-card)) saturate(170%);
-      transition: transform 0.35s cubic-bezier(0.22, 1.35, 0.36, 1), box-shadow 0.3s ease;
+      transition: transform 0.36s cubic-bezier(0.22, 1.48, 0.36, 1), box-shadow 0.3s ease;
     }
 
     .droplet:hover {
-      transform: translateY(-2px);
+      transform: translateY(-2px) scale(1.008);
+    }
+
+    .droplet:active {
+      transform: scale(0.97, 1.03);
     }
 
     .droplet.bot {
@@ -387,4 +364,881 @@
       0% {
         opacity: 0;
         border-radius: 999px;
-        transform: translate3d(-18
+        transform: translate3d(-18px, 18px, 0) scale(0.86, 1.12);
+      }
+      60% {
+        opacity: 1;
+        border-radius: 26px 22px 26px 10px;
+        transform: translate3d(3px, -3px, 0) scale(1.03, 0.97);
+      }
+      100% {
+        opacity: 1;
+        border-radius: 24px 24px 24px 8px;
+        transform: translate3d(0, 0, 0) scale(1, 1);
+      }
+    }
+
+    @keyframes liquidDropRight {
+      0% {
+        opacity: 0;
+        border-radius: 999px;
+        transform: translate3d(18px, 18px, 0) scale(0.86, 1.12);
+      }
+      60% {
+        opacity: 1;
+        border-radius: 22px 26px 10px 26px;
+        transform: translate3d(-3px, -3px, 0) scale(1.03, 0.97);
+      }
+      100% {
+        opacity: 1;
+        border-radius: 24px 24px 8px 24px;
+        transform: translate3d(0, 0, 0) scale(1, 1);
+      }
+    }
+
+    .liquid-dots {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      height: 20px;
+      padding: 0 4px;
+    }
+
+    .liquid-dots span {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #ffffff, #d8b4fe);
+      box-shadow: 0 0 12px rgba(216, 180, 254, 0.85);
+      display: inline-block;
+      animation: dropletBounce 1.25s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+    }
+
+    .liquid-dots span:nth-child(2) {
+      animation-delay: 0.16s;
+    }
+
+    .liquid-dots span:nth-child(3) {
+      animation-delay: 0.32s;
+    }
+
+    @keyframes dropletBounce {
+      0%, 75%, 100% {
+        opacity: 0.35;
+        transform: translateY(0) scale(0.82, 1.15);
+      }
+      38% {
+        opacity: 1;
+        transform: translateY(-6px) scale(1.18, 0.86);
+      }
+    }
+
+    .liquid-cursor {
+      display: inline-block;
+      width: 3px;
+      height: 1.08em;
+      border-radius: 999px;
+      background: #f3e8ff;
+      box-shadow: 0 0 12px rgba(233, 213, 255, 0.95);
+      margin-left: 3px;
+      vertical-align: -0.14em;
+      animation: cursorFlow 0.8s ease-in-out infinite;
+    }
+
+    @keyframes cursorFlow {
+      0%, 100% {
+        opacity: 1;
+        transform: scaleY(1);
+      }
+      50% {
+        opacity: 0.2;
+        transform: scaleY(0.65);
+      }
+    }
+
+    .caption-meta {
+      display: block;
+      margin-top: 7px;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.03em;
+    }
+
+    .liquid-dock {
+      display: flex;
+      border-radius: 999px;
+      background: var(--glass-input);
+      backdrop-filter: blur(var(--blur-card)) saturate(170%);
+      -webkit-backdrop-filter: blur(var(--blur-card)) saturate(170%);
+      border: 1.5px solid var(--border-glass);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 10px 26px rgba(0, 0, 0, 0.35);
+      transition: border-color 0.25s ease, box-shadow 0.3s ease, transform 0.32s cubic-bezier(0.22, 1.5, 0.36, 1);
+    }
+
+    .liquid-dock:focus-within {
+      border-color: var(--border-bright);
+      transform: translateY(-1px) scale(1.008);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.28),
+        0 0 28px rgba(192, 132, 252, 0.38);
+    }
+
+    .liquid-dock.splash {
+      transform: scale(0.97, 1.035);
+      box-shadow: 0 0 36px rgba(216, 180, 254, 0.55);
+    }
+
+    input[type="text"] {
+      width: 100%;
+      border-radius: 999px;
+      padding: 15px 22px;
+      font-size: var(--msg-fs);
+      background: transparent;
+      color: var(--text-primary);
+      border: none;
+      outline: none;
+    }
+
+    input[type="text"]::placeholder {
+      color: var(--text-muted);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="liquid-backdrop" aria-hidden="true">
+    <canvas id="liquidCanvas"></canvas>
+  </div>
+
+  <main class="liquid-shell" id="liquidShell">
+    <header class="top-bar">
+      <div class="title-group">
+        <h1>From Russia to Pakistan?</h1>
+        <p>Checking old maps and history records for the Ghuman family</p>
+      </div>
+      <div class="pill-controls">
+        <span class="glass-pill pill-badge">Official CBA Bot</span>
+        <button type="button" id="soundPill" class="glass-pill pill-sound active" aria-pressed="true">Liquid Sound: On</button>
+      </div>
+    </header>
+
+    <section id="streamWell" class="stream-well" aria-live="polite">
+      <div class="droplet bot">
+        I am a bot to answer questions and answers according to the CBA of history from russian to pakistan migration.
+        <span class="caption-meta">Created by: Mohammad Hassan</span>
+      </div>
+    </section>
+
+    <form id="dockForm" class="liquid-dock">
+      <input
+        type="text"
+        id="questionInput"
+        placeholder="Ask anything about the CBA history presentation and press Enter..."
+        autocomplete="off"
+        required
+      />
+    </form>
+  </main>
+
+  <script>
+    const CREATOR_NAME = "Mohammad Hassan";
+    const BOT_IDENTITY = "I am a bot to answer questions and answers according to the CBA of history from russian to pakistan migration.";
+
+    const FULL_CBA_KNOWLEDGE = `
+Presentation Title: From Russia to Pakistan? Checking old maps and history records for the Ghuman family. Created by: Mohammad Hassan.
+
+Full Slide-by-Slide Facts & Sources:
+1. Main Question: Family stories say early people moved south from Russia to Pakistan. History books and maps check that claim with real records. (Family Oral Records; Britannica Eurasia Geography)
+2. 4,500 Kilometers Across Asia: Russia to Punjab is more than 4,500 kilometers across cold land and high mountains. Long ago travelers walked or rode pack animals on those trips. (Encyclopaedia Britannica World Atlas)
+3. Moving One Step at a Time: Big moves across Asia took many years and many families. People stayed near good water and crops for years before moving on. (UNESCO Silk Roads Programme)
+4. Spoken Stories and Written Books: The Russia story has no dates or written papers. Old Punjab books list the Ghuman clan in Delhi, Jammu, and Sialkot. (Sialkot District Gazetteer, 1894)
+5. Cold Weather and Moving South: One idea says cold weather pushed people south from Russia toward South Asia. Cold weather moved groups in history, but no record ties that trip to the Ghuman family. (Encyclopaedia Britannica Climate History)
+6. What Historians Need for Proof: History proof needs real dates, place names, and written records with the family name. Right now no written record shows the Ghuman family leaving Russia. (The National Archives Historical Research Guide)
+7. Three Checks for Any Move: Historians check three things: when people moved, which towns they passed, and written books listing the name. (FamilySearch Genealogical Proof Standard)
+8. Why Families Moved in History: People moved in history for good farm land, trade, wars, or bad droughts with little water. (Encyclopaedia Britannica Human Migration)
+9. Central Asia in the Middle: Central Asia sits between northern Asia and South Asia. For over 2,000 years travelers passed through towns like Samarkand and Bukhara. (UNESCO Silk Roads Programme)
+10. Old Trade Roads Across Asia: Silk Roads linked Central Asia, Afghanistan, and northern India. Travelers carried goods like silk, spices, and horses along these paths for hundreds of years. (UNESCO Silk Roads Programme)
+11. Mountain Paths Into Punjab: High mountains sit between Central Asia and Punjab. Travelers crossed through mountain gaps like the Khyber Pass to reach the plains. (Encyclopaedia Britannica Khyber Pass)
+12. Four Parts of Long Trips: Long land trips had four parts: wide open plains, Central Asia towns, mountain passes, and river land in Punjab. (UNESCO Silk Roads Programme)
+13. Road Maps Are Not Family Proof: Old trade roads show people could travel across Asia, but they do not prove one family walked from Russia. Records must name the family. (The National Archives Historical Research Guide)
+14. Written Books in South Asia: Written books in South Asia name the Ghuman group in northern India and Punjab. Old district books list real villages and family branches. (A Glossary of the Tribes and Castes of the Punjab, 1911)
+15. From Delhi and Jammu to Sialkot: Punjab books say early ancestors lived near Delhi before Raja Sanpal Janjua moved to Jammu. His descendant Raja Ghumman moved into Sialkot and started the Ghuman home. (Sialkot District Gazetteer, 1894)
+16. Villages Near Five Rivers: Punjab gets its name from five rivers that water good wheat farms. From Sialkot, 21 Ghuman branches built farms in Gujranwala, Gurdaspur, Amritsar, and Lyallpur. (A Glossary of the Tribes and Castes of the Punjab, 1911)
+17. 1911 Census Numbers: The 1911 Census counted 7,579 Ghuman people in Sialkot District alone. More than twelve villages in Gurdaspur and Sangrur also had the Ghuman name. (Census of India 1911, Punjab Volume XIV)
+18. Different Spellings in Books: Writers spelled the name as Ghuman, Ghumman, or Ghamman across languages. Similar place names in other places do not prove shared family roots without records. (FamilySearch Name Spelling Guide)
+19. The 1947 Split of Punjab: In August 1947 a new border split Punjab between Pakistan and India. Many families had to leave their homes quickly when the border line was drawn. (The National Archives UK Partition Records)
+20. 14 Million People on the Move: About 14 million people crossed the new borders in 1947. People rode trains, carts, and walked in large groups recorded in government files and photos. (Encyclopaedia Britannica Partition of India)
+21. How 1947 Split Ghuman Towns: Before 1947, Muslim and Sikh Ghuman families lived near each other in Punjab. The border put Sialkot in Pakistan and Gurdaspur in India, moving families across. (Punjab Partition Resettlement Records)
+22. Talking to Elders and Saving Papers: Older family members remember village names, land papers, and old photos not in school books. Writing down who spoke and when helps check stories. (Oral History Society Guidelines)
+23. Four Main Record Sets Used: 1911 Punjab Census, Sialkot and Gurdaspur district books, UK 1947 files, and FamilySearch records. (National Archives and Census of India)
+24. Checking Every Map and Source: Each source was checked for author, year, and written proof. Arrows only belong where records show real travel, and unknown dates stay unknown. (National Geographic Historical Cartography Standards)
+25. Proven Facts vs. Unproven Ideas: The 1947 move is proven, the Delhi and Jammu to Sialkot path is in Punjab books, and a trip from Russia is not proven. (Sialkot Gazetteer and UK National Archives)
+26. Moving to Other Countries After 1950: Starting in the 1950s, Ghuman families moved from Punjab to Britain, Ireland, Canada, the US, and Gulf countries, shown in travel records. (UK National Archives Passenger Lists)
+27. Checking Family Trees Online: FamilySearch and Ancestry hold old birth and land pages; historians check real scanned pages rather than unverified user guesses. (FamilySearch Research Wiki)
+28. Key Dates in the Record: Punjab books trace movement to Sialkot, 1911 counts 7,579 Ghuman people in Sialkot District, and 1947 brings the Partition border move. (Census of India 1911 and Sialkot Gazetteer)
+29. Gujranwala and Gurdaspur Farms: Ghuman families farmed across Gujranwala and Gurdaspur before 1947; district books record villages, crops, and local family ties in central Punjab. (Punjab District Gazetteers)
+30. Reading Old Maps Carefully: Checking the map year prevents mixing old roads with modern country lines. (National Geographic Historical Cartography Standards)
+31. What History Records Show: Census books, local gazetteers, and 1947 files show Punjab and the border clearly. (History CBA Research Synthesis)
+32. Sources: Census of India 1911 (Punjab Volume XIV); Punjab District Gazetteers (Sialkot and Gurdaspur); The National Archives (UK); UNESCO Silk Roads Programme; Encyclopaedia Britannica; FamilySearch and Ancestry Archives.
+`.trim();
+
+    const SYSTEM_RULES = `
+You are the official Q&A bot for a school history CBA presentation.
+${FULL_CBA_KNOWLEDGE}
+
+Strict Rules:
+1. Never say you are Gemini, Google AI, or an AI model. If asked who or what you are, respond with: "${BOT_IDENTITY}"
+2. If asked who created the presentation, who made it, or anything about the creator/author, answer that ${CREATOR_NAME} created the presentation.
+3. Users may ask using casual slang, abbreviations, typos, or informal phrasing (e.g., "who made dis", "when did ppl move", "wat abt 1947", "cap or legit", "wats da proof", "u gemini?"). Understand their intent clearly and respond using the CBA facts and historical context.
+4. Answer questions thoroughly and clearly using the CBA facts above plus historical knowledge about Eurasia/Russia, Central Asia, Silk Roads, Khyber Pass, Punjab, the 1894 Gazetteer, the 1911 Census, the August 1947 Partition, post-1950 migration, and historical/archival methods.
+5. If a question is clearly unrelated to these topics (such as video games, sports, cooking, movies, anime, weather, or unrelated homework), reply strictly with: Question not related
+6. Remember earlier messages from both the user and assistant in this conversation.
+`.trim();
+
+    const SLANG_REPLACEMENTS = [
+      [/\bwho\s+(made|built|did|cooked up|dropped|put together)\s+(dis|this|da|it|pres|presentation|cba)\b/gi, "who created this presentation"],
+      [/\b(u|ur|yu|r u|are u)\s+(gemini|google|ai|a bot|bot)\b/gi, "who are you"],
+      [/\b(wat|wut|whut|wt|wht)\b/gi, "what"],
+      [/\b(da|dis|dat|dem|dey|ppl|peeps)\b/gi, "the people"],
+      [/\b(rn|fr|ngl|tbh|idk|idc|smh|bet|legit|cap|no cap|sus)\b/gi, " "],
+      [/\b(abt|bout|ab)\b/gi, "about"],
+      [/\b(bcz|bc|cuz|cos|coz|y|whyy)\b/gi, "why"],
+      [/\b(wen|whn|wenever)\b/gi, "when"],
+      [/\b(whr|wer|wherez)\b/gi, "where"],
+      [/\b(ppl|peeps|folks|fam)\b/gi, "people"],
+      [/\b(movin|moving|moved|bounced|dip|dipped|left|travellin|traveling|traveled)\b/gi, "migration"],
+      [/\b(pak|pkstn)\b/gi, "pakistan"],
+      [/\b(rus|rusia|russiaa)\b/gi, "russia"],
+      [/\b(punjb|punjaab)\b/gi, "punjab"],
+      [/\b(ghumanz|ghumann|ghamaan|ghummanz)\b/gi, "ghuman"]
+    ];
+
+    function normalizeSlang(raw) {
+      let out = (raw || "").toLowerCase().trim();
+      for (const [pattern, replacement] of SLANG_REPLACEMENTS) {
+        out = out.replace(pattern, replacement);
+      }
+      return out.replace(/\s+/g, " ").trim();
+    }
+
+    const DETAILED_TOPICS = [
+      {
+        terms: ["when", "date", "year", "time", "how long", "happen", "happened", "timeline", "old", "century", "centuries", "ago"],
+        reply: `${BOT_IDENTITY} The Russia-to-Pakistan migration story has no proven date or written record showing the Ghuman family leaving Russia. In the records covered in the presentation: the Sialkot District Gazetteer is from 1894 (recording early movement via Delhi and Jammu to Sialkot), the Punjab Census with Ghuman counts is from 1911, the Partition of Punjab happened in August 1947 (with around 14 million people crossing new borders), and wider migration to places like Britain, Ireland, Canada, the US, and Gulf countries began starting in the 1950s.`
+      },
+      {
+        terms: ["russia", "4,500", "4500", "cold", "eurasia", "silk road", "samarkand", "bukhara", "khyber", "mountain", "steppe", "route", "corridor", "migrate", "migration", "drought", "trade", "war", "km", "kilometers"],
+        reply: `${BOT_IDENTITY} Russia to Punjab spans more than 4,500 kilometers across cold land, open plains, mountain passes, and river valleys. Travelers and traders moved over long periods—passing through hubs like Samarkand and Bukhara along Silk Roads and mountain gaps like the Khyber Pass—often staying near water and crops for years. Even so, old trade routes show travel across Asia was possible; they do not prove the Ghuman family walked from Russia without written records naming the family.`
+      },
+      {
+        terms: ["1894", "gazetteer", "1911", "census", "7,579", "7579", "sialkot", "gurdaspur", "gujranwala", "amritsar", "lyallpur", "sangrur", "jammu", "delhi", "sanpal", "ghumman", "ghuman", "punjab", "glossary", "21", "twelve", "village", "villages", "clan", "branch", "branches"],
+        reply: `${BOT_IDENTITY} Written South Asian sources record Ghuman history in Punjab: the 1894 Sialkot District Gazetteer traces early roots near Delhi, then Jammu, and into Sialkot through Raja Sanpal Janjua and Raja Ghumman. A Glossary of the Tribes and Castes of the Punjab (1911) lists 21 Ghuman branches with farms across areas including Gujranwala, Gurdaspur, Amritsar, and Lyallpur, and the 1911 Census counted 7,579 Ghuman people in Sialkot District alone plus over twelve villages in Gurdaspur and Sangrur.`
+      },
+      {
+        terms: ["1947", "partition", "india", "pakistan", "14 million", "border", "1950", "britain", "ireland", "canada", "gulf", "train", "refugee", "split"],
+        reply: `${BOT_IDENTITY} In August 1947, a new border split Punjab between Pakistan and India, forcing many families to leave homes quickly as roughly 14 million people crossed new borders. That border put Sialkot in Pakistan and Gurdaspur in India, reshaping where families lived before and after 1947, while starting in the 1950s Ghuman families also moved from Punjab to Britain, Ireland, Canada, the US, and Gulf countries.`
+      },
+      {
+        terms: ["source", "sources", "proof", "evidence", "archive", "archives", "familysearch", "ancestry", "oral", "elder", "elders", "map", "maps", "spelling", "ghauman", "ghamman", "check", "proven", "true", "real", "fake"],
+        reply: `${BOT_IDENTITY} The presentation checks oral stories with elders against primary and secondary sources—including the 1911 Punjab Census, Sialkot and Gurdaspur district gazetteers, UK National Archives records, UNESCO Silk Roads Programme, Encyclopaedia Britannica, and FamilySearch/Ancestry—while checking map years, spelling differences (Ghuman, Ghumman, Ghamman), and three proof checks (when people moved, which towns they passed, and written books listing the name).`
+      }
+    ];
+
+    const UNRELATED_TERMS = [
+      "minecraft", "roblox", "fortnite", "valorant", "gta", "football", "soccer", "basketball",
+      "cricket", "tennis", "recipe", "cook", "cooking", "pizza", "pasta", "burger", "movie",
+      "film", "anime", "song", "music", "rap", "tiktok", "weather", "temperature", "stock",
+      "crypto", "bitcoin", "algebra", "geometry", "calculus"
+    ];
+
+    const streamWell = document.getElementById("streamWell");
+    const dockForm = document.getElementById("dockForm");
+    const questionInput = document.getElementById("questionInput");
+    const soundPill = document.getElementById("soundPill");
+    const liquidShell = document.getElementById("liquidShell");
+    const liquidCanvas = document.getElementById("liquidCanvas");
+    const lctx = liquidCanvas.getContext("2d");
+
+    let memory = [];
+    let soundEnabled = true;
+    let audioCtx = null;
+
+    // Interactive liquid background simulation behind chat
+    let cw = 0;
+    let ch = 0;
+    let pointer = { x: -9999, y: -9999, active: false };
+    let fluidBlobs = [];
+    let fluidRipples = [];
+
+    function resizeLiquidCanvas() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      cw = window.innerWidth;
+      ch = window.innerHeight;
+      liquidCanvas.width = Math.floor(cw * dpr);
+      liquidCanvas.height = Math.floor(ch * dpr);
+      lctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      if (fluidBlobs.length === 0) {
+        const count = cw < 640 ? 5 : 8;
+        for (let i = 0; i < count; i++) {
+          fluidBlobs.push({
+            baseX: (cw / (count + 1)) * (i + 1),
+            baseY: (ch * 0.25) + ((i % 3) * ch * 0.24),
+            x: (cw / (count + 1)) * (i + 1),
+            y: (ch * 0.25) + ((i % 3) * ch * 0.24),
+            vx: 0,
+            vy: 0,
+            radius: cw < 640 ? 95 + (i % 3) * 32 : 140 + (i % 3) * 48,
+            phase: i * 1.15,
+            speed: 0.008 + (i % 4) * 0.0025
+          });
+        }
+      }
+    }
+
+    function spawnFluidRipple(x, y, strength = 1) {
+      fluidRipples.push({
+        x,
+        y,
+        r: 10,
+        maxR: (cw < 640 ? 150 : 230) * strength,
+        alpha: 0.55 * Math.min(1.2, strength),
+        lineW: 2.4 * strength
+      });
+
+      for (const b of fluidBlobs) {
+        const dx = b.x - x;
+        const dy = b.y - y;
+        const dist = Math.hypot(dx, dy) || 1;
+        if (dist < 320) {
+          const push = ((320 - dist) / 320) * 4.5 * strength;
+          b.vx += (dx / dist) * push;
+          b.vy += (dy / dist) * push;
+        }
+      }
+    }
+
+    function renderLiquidLoop() {
+      lctx.clearRect(0, 0, cw, ch);
+
+      // Base dark purple-black gradient matching presentation glow
+      const bgGrad = lctx.createRadialGradient(
+        cw * 0.5,
+        ch * 0.45,
+        40,
+        cw * 0.5,
+        ch * 0.5,
+        Math.max(cw, ch) * 0.78
+      );
+      bgGrad.addColorStop(0, "rgba(58, 16, 108, 0.26)");
+      bgGrad.addColorStop(0.55, "rgba(24, 8, 52, 0.18)");
+      bgGrad.addColorStop(1, "rgba(7, 3, 17, 0.42)");
+      lctx.fillStyle = bgGrad;
+      lctx.fillRect(0, 0, cw, ch);
+
+      for (const b of fluidBlobs) {
+        b.phase += b.speed;
+        const targetX = b.baseX + Math.cos(b.phase) * 46;
+        const targetY = b.baseY + Math.sin(b.phase * 1.25) * 36;
+
+        if (pointer.active) {
+          const dx = pointer.x - b.x;
+          const dy = pointer.y - b.y;
+          const dist = Math.hypot(dx, dy) || 1;
+          if (dist < 260) {
+            const pull = ((260 - dist) / 260) * 0.28;
+            b.vx += (dx / dist) * pull;
+            b.vy += (dy / dist) * pull;
+          }
+        }
+
+        b.vx += (targetX - b.x) * 0.012;
+        b.vy += (targetY - b.y) * 0.012;
+        b.vx *= 0.92;
+        b.vy *= 0.92;
+        b.x += b.vx;
+        b.y += b.vy;
+
+        const blobGrad = lctx.createRadialGradient(b.x, b.y, b.radius * 0.08, b.x, b.y, b.radius);
+        blobGrad.addColorStop(0, "rgba(168, 85, 247, 0.34)");
+        blobGrad.addColorStop(0.55, "rgba(107, 33, 168, 0.18)");
+        blobGrad.addColorStop(1, "rgba(30, 8, 64, 0)");
+
+        lctx.save();
+        lctx.beginPath();
+        const points = 18;
+        for (let i = 0; i <= points; i++) {
+          const angle = (i / points) * Math.PI * 2;
+          const wobble =
+            1 +
+            0.14 * Math.sin(angle * 3 + b.phase * 2.1) +
+            0.09 * Math.cos(angle * 2 - b.phase * 1.7);
+          const px = b.x + Math.cos(angle) * b.radius * wobble;
+          const py = b.y + Math.sin(angle) * b.radius * wobble;
+          if (i === 0) lctx.moveTo(px, py);
+          else lctx.lineTo(px, py);
+        }
+        lctx.closePath();
+        lctx.fillStyle = blobGrad;
+        lctx.fill();
+        lctx.restore();
+      }
+
+      for (let i = fluidRipples.length - 1; i >= 0; i--) {
+        const rp = fluidRipples[i];
+        rp.r += 3.8;
+        rp.alpha *= 0.962;
+
+        if (rp.alpha < 0.015 || rp.r > rp.maxR) {
+          fluidRipples.splice(i, 1);
+          continue;
+        }
+
+        lctx.save();
+        lctx.beginPath();
+        lctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2);
+        lctx.strokeStyle = `rgba(216, 180, 254, ${rp.alpha.toFixed(3)})`;
+        lctx.lineWidth = rp.lineW;
+        lctx.stroke();
+        lctx.restore();
+      }
+
+      requestAnimationFrame(renderLiquidLoop);
+    }
+
+    resizeLiquidCanvas();
+    renderLiquidLoop();
+
+    function getAudioContext() {
+      if (!soundEnabled) return null;
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return null;
+      if (!audioCtx) {
+        audioCtx = new AudioContextClass();
+      }
+      if (audioCtx.state === "suspended") {
+        audioCtx.resume().catch(() => {});
+      }
+      return audioCtx;
+    }
+
+    function playLiquidTone(startFreq, endFreq, duration, type = "sine", peakGain = 0.04, delay = 0) {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+
+      const now = ctx.currentTime + delay;
+      const osc = ctx.createOscillator();
+      const filter = ctx.createBiquadFilter();
+      const gain = ctx.createGain();
+
+      osc.type = type;
+      osc.frequency.setValueAtTime(startFreq, now);
+      if (typeof endFreq === "number") {
+        osc.frequency.exponentialRampToValueAtTime(Math.max(45, endFreq), now + duration);
+      }
+
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(Math.min(4800, Math.max(400, startFreq * 2.6)), now);
+      filter.Q.setValueAtTime(2.4, now);
+
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.linearRampToValueAtTime(peakGain, now + Math.min(0.025, duration * 0.25));
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + duration + 0.03);
+    }
+
+    function playTouchLiquidSound() {
+      playLiquidTone(390, 790, 0.13, "sine", 0.028, 0);
+      playLiquidTone(620, 980, 0.09, "triangle", 0.015, 0.025);
+    }
+
+    function playLiquidLaunch() {
+      playLiquidTone(260, 740, 0.22, "sine", 0.038, 0);
+      playLiquidTone(520, 980, 0.16, "triangle", 0.024, 0.05);
+      playLiquidTone(784, 1174, 0.14, "sine", 0.02, 0.09);
+    }
+
+    function playLiquidBubblePulse() {
+      playLiquidTone(360, 620, 0.12, "sine", 0.022, 0);
+    }
+
+    function playLiquidTick(idx) {
+      const liquidNotes = [440, 493.88, 554.37, 659.25, 740, 880, 987.77];
+      const f0 = liquidNotes[idx % liquidNotes.length];
+      const f1 = f0 * 1.12;
+      playLiquidTone(f0, f1, 0.055, "sine", 0.018, 0);
+    }
+
+    function playLiquidArrival() {
+      playLiquidTone(523.25, 554.37, 0.24, "sine", 0.035, 0);
+      playLiquidTone(659.25, 698.46, 0.26, "sine", 0.032, 0.07);
+      playLiquidTone(783.99, 830.61, 0.28, "triangle", 0.028, 0.14);
+      playLiquidTone(1046.5, 1108.73, 0.34, "sine", 0.024, 0.21);
+    }
+
+    // Touching/clicking anywhere feels like touching liquid
+    window.addEventListener("pointermove", (e) => {
+      pointer.x = e.clientX;
+      pointer.y = e.clientY;
+      pointer.active = true;
+    });
+
+    window.addEventListener("pointerleave", () => {
+      pointer.active = false;
+    });
+
+    window.addEventListener("pointerdown", (e) => {
+      pointer.x = e.clientX;
+      pointer.y = e.clientY;
+      pointer.active = true;
+
+      const dot = document.createElement("div");
+      dot.className = "touch-ripple";
+      dot.style.left = `${e.clientX}px`;
+      dot.style.top = `${e.clientY}px`;
+      document.body.appendChild(dot);
+      setTimeout(() => dot.remove(), 700);
+
+      spawnFluidRipple(e.clientX, e.clientY, 1.15);
+      playTouchLiquidSound();
+
+      liquidShell.classList.add("liquid-jiggle");
+      setTimeout(() => liquidShell.classList.remove("liquid-jiggle"), 260);
+    });
+
+    soundPill.addEventListener("click", (e) => {
+      e.stopPropagation();
+      soundEnabled = !soundEnabled;
+      soundPill.textContent = soundEnabled ? "Liquid Sound: On" : "Liquid Sound: Off";
+      soundPill.classList.toggle("active", soundEnabled);
+      soundPill.setAttribute("aria-pressed", String(soundEnabled));
+      if (soundEnabled) {
+        playLiquidTone(480, 860, 0.14, "sine", 0.03, 0);
+      }
+    });
+
+    function syncViewportLayout() {
+      const w = window.innerWidth;
+      const touch = navigator.maxTouchPoints > 0 || "ontouchstart" in window;
+      let device = "desktop";
+      if (w <= 640 || (touch && w <= 780)) {
+        device = "mobile";
+      } else if (w <= 1024) {
+        device = "tablet";
+      }
+      document.documentElement.setAttribute("data-device", device);
+      resizeLiquidCanvas();
+    }
+
+    syncViewportLayout();
+    window.addEventListener("resize", syncViewportLayout);
+
+    function isGreeting(raw) {
+      const norm = normalizeSlang(raw);
+      return ["hi", "hello", "hey", "yo", "sup", "what is up", "good morning", "good afternoon", "good evening"].includes(norm);
+    }
+
+    function asksCreator(raw) {
+      const norm = normalizeSlang(raw);
+      return (
+        norm.includes("who created") ||
+        norm.includes("who made") ||
+        norm.includes("who built") ||
+        norm.includes("created by") ||
+        norm.includes("creator") ||
+        norm.includes("author") ||
+        norm.includes("made this presentation") ||
+        norm.includes("who is behind")
+      );
+    }
+
+    function asksIdentity(raw) {
+      const norm = normalizeSlang(raw);
+      return (
+        norm.includes("who are you") ||
+        norm.includes("what are you") ||
+        norm.includes("are you gemini") ||
+        norm.includes("gemini") ||
+        norm.includes("what model")
+      );
+    }
+
+    function isClearlyUnrelated(raw) {
+      const norm = normalizeSlang(raw);
+      if (asksCreator(norm) || asksIdentity(norm) || isGreeting(norm)) return false;
+
+      const allowedTopicWords = [
+        "russia", "russian", "eurasia", "eurasian", "pakistan", "india", "punjab", "partition",
+        "1947", "1911", "1894", "1950", "ghuman", "ghumman", "ghamman", "sialkot", "gurdaspur",
+        "gujranwala", "amritsar", "lyallpur", "sangrur", "jammu", "delhi", "silk road", "khyber",
+        "samarkand", "bukhara", "census", "gazetteer", "archive", "history", "historical", "cba",
+        "migration", "migrate", "map", "maps", "source", "sources", "family", "oral", "presentation",
+        "slide", "when", "date", "year", "happen", "happened", "proof", "record", "records",
+        "britain", "ireland", "canada", "gulf", "clan", "village", "villages"
+      ];
+
+      if (allowedTopicWords.some((w) => norm.includes(w))) return false;
+      return UNRELATED_TERMS.some((w) => norm.includes(w));
+    }
+
+    function addUserDroplet(text) {
+      const box = document.createElement("div");
+      box.className = "droplet user";
+      box.textContent = text;
+      streamWell.appendChild(box);
+      streamWell.scrollTop = streamWell.scrollHeight;
+    }
+
+    function createLiquidThinkingDroplet() {
+      const box = document.createElement("div");
+      box.className = "droplet bot flowing";
+      box.innerHTML = `<span class="liquid-dots"><span></span><span></span><span></span></span>`;
+      streamWell.appendChild(box);
+      streamWell.scrollTop = streamWell.scrollHeight;
+      playLiquidBubblePulse();
+      return box;
+    }
+
+    function typeLiquidReply(text, metaText = "From Russia to Pakistan?") {
+      return new Promise((resolve) => {
+        const box = document.createElement("div");
+        box.className = "droplet bot flowing";
+
+        const textSpan = document.createElement("span");
+        const caretSpan = document.createElement("span");
+        caretSpan.className = "liquid-cursor";
+
+        const metaSpan = document.createElement("span");
+        metaSpan.className = "caption-meta";
+        metaSpan.textContent = metaText;
+        metaSpan.style.opacity = "0";
+        metaSpan.style.transition = "opacity 0.35s ease";
+
+        box.appendChild(textSpan);
+        box.appendChild(caretSpan);
+        box.appendChild(metaSpan);
+        streamWell.appendChild(box);
+
+        let idx = 0;
+        const baseSpeed = text.length > 260 ? 10 : 14;
+
+        function step() {
+          if (idx < text.length) {
+            textSpan.textContent += text.charAt(idx);
+            if (idx % 2 === 0) {
+              playLiquidTick(idx);
+            }
+            idx += 1;
+            streamWell.scrollTop = streamWell.scrollHeight;
+            setTimeout(step, baseSpeed);
+          } else {
+            caretSpan.remove();
+            box.classList.remove("flowing");
+            metaSpan.style.opacity = "1";
+            playLiquidArrival();
+            streamWell.scrollTop = streamWell.scrollHeight;
+            resolve();
+          }
+        }
+
+        step();
+      });
+    }
+
+    function normalizeModelReply(raw, q) {
+      if (asksCreator(q)) return `${CREATOR_NAME} created this presentation.`;
+      if (asksIdentity(q)) return BOT_IDENTITY;
+      const clean = (raw || "").trim();
+      if (!clean) return "Question not related";
+      if (/^question not related[.!]?$/i.test(clean)) return "Question not related";
+      return clean
+        .replace(/\b(i am|i'm|as) (an? )?(gemini|google ai|large language model|language model)\b/gi, BOT_IDENTITY)
+        .trim();
+    }
+
+    function fallbackFromDeck(q) {
+      if (asksCreator(q)) return `${CREATOR_NAME} created this presentation.`;
+      if (asksIdentity(q)) return BOT_IDENTITY;
+      if (isGreeting(q)) {
+        return `${BOT_IDENTITY} Ask me about dates, Eurasia routes, Punjab records, the 1911 census, the 1947 Partition, or sources.`;
+      }
+      if (isClearlyUnrelated(q)) return "Question not related";
+
+      const norm = normalizeSlang(q);
+      let best = null;
+      let bestScore = 0;
+
+      for (const m of DETAILED_TOPICS) {
+        let score = 0;
+        for (const term of m.terms) {
+          if (norm.includes(term)) score += 1;
+        }
+        if (score > bestScore) {
+          bestScore = score;
+          best = m;
+        }
+      }
+      if (best && bestScore > 0) return best.reply;
+
+      const priorUserText = memory
+        .filter((item) => item.role === "user")
+        .slice(-4)
+        .map((item) => normalizeSlang(item.content))
+        .join(" ");
+
+      for (const m of DETAILED_TOPICS) {
+        if (m.terms.some((term) => priorUserText.includes(term))) {
+          return m.reply;
+        }
+      }
+
+      return "Question not related";
+    }
+
+    async function fetchWithTimeout(url, options, timeoutMs = 6500) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        const res = await fetch(url, { ...options, signal: controller.signal });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res;
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    async function fetchFreeModel(messages) {
+      const endpoints = [
+        {
+          url: "https://text.pollinations.ai/openai/chat/completions",
+          body: { model: "openai", messages, temperature: 0.25 }
+        },
+        {
+          url: "https://text.pollinations.ai/",
+          isPlainPrompt: true
+        }
+      ];
+
+      for (const ep of endpoints) {
+        try {
+          if (ep.isPlainPrompt) {
+            const res = await fetchWithTimeout(
+              ep.url,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  messages,
+                  model: "openai",
+                  temperature: 0.25
+                })
+              },
+              6500
+            );
+            const contentType = res.headers.get("content-type") || "";
+            if (contentType.includes("application/json")) {
+              const json = await res.json();
+              const text = json?.choices?.[0]?.message?.content || json?.content || "";
+              if (text.trim()) return text;
+            } else {
+              const text = await res.text();
+              if (text.trim()) return text;
+            }
+          } else {
+            const res = await fetchWithTimeout(
+              ep.url,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(ep.body)
+              },
+              6500
+            );
+            const json = await res.json();
+            const text = json?.choices?.[0]?.message?.content || "";
+            if (text.trim()) return text;
+          }
+        } catch (_) {
+          // Try next endpoint
+        }
+      }
+
+      throw new Error("All free model endpoints timed out or failed");
+    }
+
+    async function answerQuestion(q) {
+      if (asksCreator(q)) {
+        return { text: `${CREATOR_NAME} created this presentation.`, note: "From Russia to Pakistan?" };
+      }
+      if (asksIdentity(q)) {
+        return { text: BOT_IDENTITY, note: "From Russia to Pakistan?" };
+      }
+      if (isClearlyUnrelated(q)) {
+        return { text: "Question not related", note: "From Russia to Pakistan?" };
+      }
+
+      const messages = [
+        { role: "system", content: SYSTEM_RULES },
+        ...memory.slice(-16),
+        { role: "user", content: q }
+      ];
+
+      try {
+        const raw = await fetchFreeModel(messages);
+        return {
+          text: normalizeModelReply(raw, q),
+          note: "From Russia to Pakistan?"
+        };
+      } catch (_) {
+        return {
+          text: fallbackFromDeck(q),
+          note: "From Russia to Pakistan?"
+        };
+      }
+    }
+
+    dockForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const q = questionInput.value.trim();
+      if (!q) return;
+
+      questionInput.value = "";
+      questionInput.disabled = true;
+
+      dockForm.classList.add("splash");
+      setTimeout(() => dockForm.classList.remove("splash"), 260);
+
+      const rect = dockForm.getBoundingClientRect();
+      spawnFluidRipple(rect.left + rect.width * 0.5, rect.top + rect.height * 0.5, 1.35);
+
+      playLiquidLaunch();
+      addUserDroplet(q);
+
+      const thinkingDroplet = createLiquidThinkingDroplet();
+      const result = await answerQuestion(q);
+      thinkingDroplet.remove();
+
+      await typeLiquidReply(result.text, result.note);
+
+      memory.push({ role: "user", content: q });
+      memory.push({ role: "assistant", content: result.text });
+
+      questionInput.disabled = false;
+      questionInput.focus();
+    });
+  </script>
+</body>
+</html>
