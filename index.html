@@ -3,46 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>From Russia to Pakistan?</title>
+  <title>From Russia to Pakistan? — Official CBA Bot</title>
   <style>
     :root {
-      --bg-void: #07050f;
+      --bg-void: #06040d;
       --bg-deep: #110924;
-      --bg-panel: rgba(16, 10, 32, 0.88);
-      --bg-card: rgba(27, 15, 54, 0.92);
-      --bg-user: rgba(38, 17, 74, 0.94);
+      --bg-mid: #1a0d38;
+      --glass-shell: rgba(18, 12, 36, 0.62);
+      --glass-card: rgba(34, 21, 68, 0.58);
+      --glass-user: rgba(52, 24, 96, 0.68);
+      --glass-input: rgba(10, 7, 22, 0.68);
+      --border-glass: rgba(216, 180, 254, 0.28);
+      --border-bright: rgba(192, 132, 252, 0.65);
       --border-neon: #9333ea;
-      --border-glow: #c084fc;
-      --border-subtle: rgba(192, 132, 252, 0.35);
-      --text-main: #f8f5ff;
-      --text-sub: #d4c4f7;
-      --text-dim: #9e8ac9;
-      --accent-purple: #7e22ce;
-      --accent-bright: #a855f7;
+      --text-primary: #faf7ff;
+      --text-secondary: #ddd0f7;
+      --text-muted: #a996cf;
+      --blur-strength: 24px;
       --outer-pad: 22px;
       --inner-pad: 24px;
-      --chat-h: 410px;
-      --title-fs: 25px;
-      --sub-fs: 14px;
+      --chat-h: 430px;
+      --title-fs: 24px;
+      --sub-fs: 13.5px;
       --msg-fs: 14.5px;
     }
 
     html[data-device="tablet"] {
       --outer-pad: 16px;
       --inner-pad: 20px;
-      --chat-h: 365px;
-      --title-fs: 22px;
-      --sub-fs: 13.5px;
+      --chat-h: 380px;
+      --title-fs: 21px;
+      --sub-fs: 13px;
       --msg-fs: 14px;
     }
 
     html[data-device="mobile"] {
       --outer-pad: 10px;
       --inner-pad: 14px;
-      --chat-h: 325px;
+      --chat-h: 340px;
       --title-fs: 19px;
-      --sub-fs: 13px;
+      --sub-fs: 12.5px;
       --msg-fs: 13.5px;
+      --blur-strength: 18px;
     }
 
     * {
@@ -50,137 +52,308 @@
       margin: 0;
       padding: 0;
       border-radius: 0;
-      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Arial, sans-serif;
     }
 
     body {
       min-height: 100vh;
       background:
-        radial-gradient(circle at 18% 18%, rgba(168, 85, 247, 0.24), transparent 42%),
-        radial-gradient(circle at 82% 82%, rgba(126, 34, 206, 0.22), transparent 46%),
-        linear-gradient(155deg, var(--bg-void) 0%, var(--bg-deep) 55%, #090614 100%);
-      color: var(--text-main);
+        radial-gradient(circle at 15% 15%, rgba(168, 85, 247, 0.34), transparent 44%),
+        radial-gradient(circle at 85% 25%, rgba(126, 34, 206, 0.28), transparent 46%),
+        radial-gradient(circle at 50% 90%, rgba(192, 132, 252, 0.16), transparent 50%),
+        linear-gradient(155deg, var(--bg-void) 0%, var(--bg-deep) 52%, var(--bg-mid) 100%);
+      color: var(--text-primary);
       display: flex;
       justify-content: center;
       align-items: center;
       padding: var(--outer-pad);
+      overflow-x: hidden;
     }
 
-    .frame {
+    .ambient-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(to right, rgba(216, 180, 254, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(216, 180, 254, 0.04) 1px, transparent 1px);
+      background-size: 44px 44px;
+      z-index: 0;
+    }
+
+    .glass-shell {
+      position: relative;
+      z-index: 1;
       width: 100%;
-      max-width: 860px;
-      background: var(--bg-panel);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 2px solid var(--border-neon);
-      box-shadow: 0 0 32px rgba(147, 51, 234, 0.28);
+      max-width: 880px;
+      background: var(--glass-shell);
+      backdrop-filter: blur(var(--blur-strength)) saturate(155%);
+      -webkit-backdrop-filter: blur(var(--blur-strength)) saturate(155%);
+      border: 1.5px solid var(--border-bright);
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.16),
+        0 0 36px rgba(147, 51, 234, 0.22);
       padding: var(--inner-pad);
+      animation: shellEnter 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
-    .head {
-      border-bottom: 1px solid var(--border-subtle);
+    @keyframes shellEnter {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      border-bottom: 1px solid var(--border-glass);
       padding-bottom: 14px;
       margin-bottom: 16px;
     }
 
-    .head h1 {
+    .title-wrap h1 {
       font-size: var(--title-fs);
       font-weight: 700;
-      letter-spacing: 0.3px;
-      color: var(--text-main);
-      margin-bottom: 5px;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      margin-bottom: 4px;
     }
 
-    .head p {
+    .title-wrap p {
       font-size: var(--sub-fs);
-      color: var(--text-sub);
-      line-height: 1.45;
+      color: var(--text-secondary);
+      line-height: 1.4;
     }
 
-    .log {
+    .status-cluster {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .official-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 6px 10px;
+      background: rgba(147, 51, 234, 0.24);
+      border: 1px solid var(--border-glass);
+      color: #f3e8ff;
+    }
+
+    .sound-toggle {
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 6px 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-glass);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .sound-toggle:hover,
+    .sound-toggle.active {
+      background: rgba(168, 85, 247, 0.28);
+      border-color: var(--border-bright);
+      color: #ffffff;
+    }
+
+    .chat-stage {
       height: var(--chat-h);
       overflow-y: auto;
-      background: rgba(8, 5, 18, 0.92);
-      border: 1px solid var(--border-subtle);
+      background: var(--glass-input);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-glass);
       padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 13px;
       margin-bottom: 16px;
+      scroll-behavior: smooth;
     }
 
-    .entry {
-      max-width: 90%;
-      padding: 12px 14px;
+    .chat-stage::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .chat-stage::-webkit-scrollbar-track {
+      background: rgba(10, 7, 22, 0.4);
+    }
+
+    .chat-stage::-webkit-scrollbar-thumb {
+      background: rgba(192, 132, 252, 0.35);
+    }
+
+    .bubble {
+      max-width: 88%;
+      padding: 12px 15px;
       font-size: var(--msg-fs);
-      line-height: 1.5;
+      line-height: 1.55;
       white-space: pre-wrap;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      animation: msgSlideIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
-    .entry.bot {
+    @keyframes msgSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.99);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .bubble.bot {
       align-self: flex-start;
-      background: linear-gradient(135deg, var(--bg-card), rgba(18, 10, 38, 0.95));
-      border: 1px solid rgba(168, 85, 247, 0.6);
-      color: var(--text-main);
+      background: linear-gradient(145deg, var(--glass-card), rgba(22, 13, 45, 0.66));
+      border: 1px solid var(--border-glass);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      color: var(--text-primary);
     }
 
-    .entry.user {
+    .bubble.user {
       align-self: flex-end;
-      background: linear-gradient(135deg, var(--bg-user), rgba(24, 12, 48, 0.95));
-      border: 1px solid var(--border-glow);
-      color: var(--text-main);
+      background: linear-gradient(145deg, var(--glass-user), rgba(34, 15, 68, 0.72));
+      border: 1px solid var(--border-bright);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      color: #ffffff;
     }
 
-    .source-line {
+    .typing-dots {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      height: 18px;
+    }
+
+    .typing-dots span {
+      width: 6px;
+      height: 6px;
+      background: #e9d5ff;
+      display: inline-block;
+      animation: pulseDot 1.1s infinite ease-in-out;
+    }
+
+    .typing-dots span:nth-child(2) {
+      animation-delay: 0.18s;
+    }
+
+    .typing-dots span:nth-child(3) {
+      animation-delay: 0.36s;
+    }
+
+    @keyframes pulseDot {
+      0%, 80%, 100% {
+        opacity: 0.25;
+        transform: translateY(0);
+      }
+      40% {
+        opacity: 1;
+        transform: translateY(-3px);
+      }
+    }
+
+    .cursor-caret {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: #e9d5ff;
+      margin-left: 2px;
+      vertical-align: -0.12em;
+      animation: blinkCaret 0.75s steps(1, end) infinite;
+    }
+
+    @keyframes blinkCaret {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .meta-footer {
       display: block;
-      margin-top: 6px;
-      font-size: 11.5px;
-      color: var(--text-dim);
+      margin-top: 7px;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
     }
 
-    .form-box {
+    .composer {
       display: flex;
+      background: var(--glass-input);
+      border: 1.5px solid var(--border-glass);
+      transition: border-color 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .composer:focus-within {
+      border-color: var(--border-bright);
+      box-shadow: 0 0 18px rgba(168, 85, 247, 0.28);
     }
 
     input[type="text"] {
       width: 100%;
-      padding: 13px 14px;
+      padding: 14px 16px;
       font-size: var(--msg-fs);
-      background: rgba(8, 5, 18, 0.94);
-      color: var(--text-main);
-      border: 1px solid var(--border-neon);
+      background: transparent;
+      color: var(--text-primary);
+      border: none;
       outline: none;
     }
 
-    input[type="text"]:focus {
-      border-color: var(--border-glow);
-      box-shadow: 0 0 12px rgba(168, 85, 247, 0.35);
+    input[type="text"]::placeholder {
+      color: var(--text-muted);
     }
 
-    input[type="text"]::placeholder {
-      color: var(--text-dim);
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="frame">
-    <header class="head">
-      <h1>From Russia to Pakistan?</h1>
-      <p>Checking old maps and history records for the Ghuman family</p>
+  <div class="ambient-grid" aria-hidden="true"></div>
+
+  <main class="glass-shell">
+    <header class="top-header">
+      <div class="title-wrap">
+        <h1>From Russia to Pakistan?</h1>
+        <p>Checking old maps and history records for the Ghuman family</p>
+      </div>
+      <div class="status-cluster">
+        <span class="official-tag">Official CBA Bot</span>
+        <button type="button" id="soundToggle" class="sound-toggle active" aria-pressed="true">Sound: On</button>
+      </div>
     </header>
 
-    <section id="log" class="log" aria-live="polite">
-      <div class="entry bot">
+    <section id="chatStage" class="chat-stage" aria-live="polite">
+      <div class="bubble bot">
         I am a bot to answer questions and answers according to the CBA of history from russian to pakistan migration.
-        <span class="source-line">Created by: Mohammad Hassan</span>
+        <span class="meta-footer">Created by: Mohammad Hassan</span>
       </div>
     </section>
 
-    <form id="askForm" class="form-box">
+    <form id="composerForm" class="composer">
       <input
         type="text"
         id="questionInput"
-        placeholder="Type a question and press Enter..."
+        placeholder="Ask a question about the CBA history presentation and press Enter..."
         autocomplete="off"
         required
       />
@@ -230,7 +403,7 @@ Full Slide-by-Slide Facts & Sources:
 `.trim();
 
     const SYSTEM_RULES = `
-You are answering questions for a school history CBA presentation.
+You are the official Q&A bot for a school history CBA presentation.
 ${FULL_CBA_KNOWLEDGE}
 
 Strict Rules:
@@ -270,11 +443,75 @@ Strict Rules:
       "tiktok", "weather", "temperature", "stock", "crypto", "bitcoin", "algebra", "geometry"
     ];
 
-    const logEl = document.getElementById("log");
-    const formEl = document.getElementById("askForm");
-    const inputEl = document.getElementById("questionInput");
+    const chatStage = document.getElementById("chatStage");
+    const composerForm = document.getElementById("composerForm");
+    const questionInput = document.getElementById("questionInput");
+    const soundToggle = document.getElementById("soundToggle");
 
     let memory = [];
+    let soundEnabled = true;
+    let audioCtx = null;
+
+    function getAudioContext() {
+      if (!soundEnabled) return null;
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return null;
+      if (!audioCtx) {
+        audioCtx = new AudioContextClass();
+      }
+      if (audioCtx.state === "suspended") {
+        audioCtx.resume().catch(() => {});
+      }
+      return audioCtx;
+    }
+
+    function playTone(freq, duration, type = "sine", gainVal = 0.035, delay = 0) {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+
+      const startTime = ctx.currentTime + delay;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, startTime);
+
+      gain.gain.setValueAtTime(0.0001, startTime);
+      gain.gain.exponentialRampToValueAtTime(gainVal, startTime + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(startTime);
+      osc.stop(startTime + duration + 0.02);
+    }
+
+    function playSendSound() {
+      playTone(540, 0.07, "sine", 0.03, 0);
+      playTone(720, 0.09, "sine", 0.03, 0.045);
+    }
+
+    function playKeyTick(index) {
+      if (index % 3 !== 0) return;
+      const notes = [620, 660, 700, 740];
+      playTone(notes[index % notes.length], 0.025, "triangle", 0.012, 0);
+    }
+
+    function playDoneChime() {
+      playTone(660, 0.11, "sine", 0.03, 0);
+      playTone(880, 0.16, "sine", 0.03, 0.08);
+    }
+
+    soundToggle.addEventListener("click", () => {
+      soundEnabled = !soundEnabled;
+      soundToggle.textContent = soundEnabled ? "Sound: On" : "Sound: Off";
+      soundToggle.classList.toggle("active", soundEnabled);
+      soundToggle.setAttribute("aria-pressed", String(soundEnabled));
+      if (soundEnabled) {
+        playTone(600, 0.07, "sine", 0.025, 0);
+      }
+    });
 
     function syncViewportLayout() {
       const w = window.innerWidth;
@@ -336,19 +573,64 @@ Strict Rules:
       return UNRELATED_TERMS.some((w) => t.includes(w));
     }
 
-    function pushMessage(text, who, note = "") {
+    function addUserBubble(text) {
       const box = document.createElement("div");
-      box.className = `entry ${who}`;
+      box.className = "bubble user";
       box.textContent = text;
-      if (who === "bot" && note) {
-        const sub = document.createElement("span");
-        sub.className = "source-line";
-        sub.textContent = note;
-        box.appendChild(sub);
-      }
-      logEl.appendChild(box);
-      logEl.scrollTop = logEl.scrollHeight;
+      chatStage.appendChild(box);
+      chatStage.scrollTop = chatStage.scrollHeight;
+    }
+
+    function createThinkingBubble() {
+      const box = document.createElement("div");
+      box.className = "bubble bot";
+      box.innerHTML = `<span class="typing-dots"><span></span><span></span><span></span></span>`;
+      chatStage.appendChild(box);
+      chatStage.scrollTop = chatStage.scrollHeight;
       return box;
+    }
+
+    function typeBotReply(text, metaText = "Official CBA Bot") {
+      return new Promise((resolve) => {
+        const box = document.createElement("div");
+        box.className = "bubble bot";
+
+        const textSpan = document.createElement("span");
+        const caretSpan = document.createElement("span");
+        caretSpan.className = "cursor-caret";
+
+        const metaSpan = document.createElement("span");
+        metaSpan.className = "meta-footer";
+        metaSpan.textContent = metaText;
+        metaSpan.style.opacity = "0";
+        metaSpan.style.transition = "opacity 0.25s ease";
+
+        box.appendChild(textSpan);
+        box.appendChild(caretSpan);
+        box.appendChild(metaSpan);
+        chatStage.appendChild(box);
+
+        let idx = 0;
+        const speed = text.length > 260 ? 11 : 16;
+
+        function step() {
+          if (idx < text.length) {
+            textSpan.textContent += text.charAt(idx);
+            playKeyTick(idx);
+            idx += 1;
+            chatStage.scrollTop = chatStage.scrollHeight;
+            setTimeout(step, speed);
+          } else {
+            caretSpan.remove();
+            metaSpan.style.opacity = "1";
+            playDoneChime();
+            chatStage.scrollTop = chatStage.scrollHeight;
+            resolve();
+          }
+        }
+
+        step();
+      });
     }
 
     function normalizeModelReply(raw, q) {
@@ -503,27 +785,28 @@ Strict Rules:
       }
     }
 
-    formEl.addEventListener("submit", async (e) => {
+    composerForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const q = inputEl.value.trim();
+      const q = questionInput.value.trim();
       if (!q) return;
 
-      inputEl.value = "";
-      inputEl.disabled = true;
+      questionInput.value = "";
+      questionInput.disabled = true;
 
-      pushMessage(q, "user");
-      const waitingBox = pushMessage("Checking records...", "bot");
+      playSendSound();
+      addUserBubble(q);
 
+      const thinkingBubble = createThinkingBubble();
       const result = await answerQuestion(q);
-      waitingBox.remove();
+      thinkingBubble.remove();
 
-      pushMessage(result.text, "bot", result.note);
+      await typeBotReply(result.text, result.note);
 
       memory.push({ role: "user", content: q });
       memory.push({ role: "assistant", content: result.text });
 
-      inputEl.disabled = false;
-      inputEl.focus();
+      questionInput.disabled = false;
+      questionInput.focus();
     });
   </script>
 </body>
