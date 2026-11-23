@@ -6,24 +6,26 @@
   <title>From Russia to Pakistan? — Official CBA Bot</title>
   <style>
     :root {
-      --bg-void: #06040d;
-      --bg-deep: #110924;
-      --bg-mid: #1a0d38;
-      --glass-shell: rgba(18, 12, 36, 0.62);
-      --glass-card: rgba(34, 21, 68, 0.58);
-      --glass-user: rgba(52, 24, 96, 0.68);
-      --glass-input: rgba(10, 7, 22, 0.68);
-      --border-glass: rgba(216, 180, 254, 0.28);
-      --border-bright: rgba(192, 132, 252, 0.65);
-      --border-neon: #9333ea;
-      --text-primary: #faf7ff;
-      --text-secondary: #ddd0f7;
-      --text-muted: #a996cf;
-      --blur-strength: 24px;
+      --bg-void: #05030b;
+      --bg-deep: #100722;
+      --bg-mid: #1c0c3d;
+      --bg-peak: #2a1057;
+      --glass-shell: rgba(18, 11, 38, 0.64);
+      --glass-card: rgba(35, 19, 72, 0.62);
+      --glass-user: rgba(62, 24, 116, 0.72);
+      --glass-input: rgba(9, 6, 20, 0.72);
+      --border-glass: rgba(216, 180, 254, 0.32);
+      --border-bright: rgba(216, 180, 254, 0.78);
+      --border-neon: #a855f7;
+      --text-primary: #fcfaff;
+      --text-secondary: #e2d4fc;
+      --text-muted: #b39ddb;
+      --blur-heavy: 28px;
+      --blur-card: 18px;
       --outer-pad: 22px;
       --inner-pad: 24px;
-      --chat-h: 430px;
-      --title-fs: 24px;
+      --chat-h: 440px;
+      --title-fs: 25px;
       --sub-fs: 13.5px;
       --msg-fs: 14.5px;
     }
@@ -31,8 +33,8 @@
     html[data-device="tablet"] {
       --outer-pad: 16px;
       --inner-pad: 20px;
-      --chat-h: 380px;
-      --title-fs: 21px;
+      --chat-h: 390px;
+      --title-fs: 22px;
       --sub-fs: 13px;
       --msg-fs: 14px;
     }
@@ -40,11 +42,12 @@
     html[data-device="mobile"] {
       --outer-pad: 10px;
       --inner-pad: 14px;
-      --chat-h: 340px;
+      --chat-h: 350px;
       --title-fs: 19px;
       --sub-fs: 12.5px;
       --msg-fs: 13.5px;
-      --blur-strength: 18px;
+      --blur-heavy: 20px;
+      --blur-card: 14px;
     }
 
     * {
@@ -58,10 +61,10 @@
     body {
       min-height: 100vh;
       background:
-        radial-gradient(circle at 15% 15%, rgba(168, 85, 247, 0.34), transparent 44%),
-        radial-gradient(circle at 85% 25%, rgba(126, 34, 206, 0.28), transparent 46%),
-        radial-gradient(circle at 50% 90%, rgba(192, 132, 252, 0.16), transparent 50%),
-        linear-gradient(155deg, var(--bg-void) 0%, var(--bg-deep) 52%, var(--bg-mid) 100%);
+        radial-gradient(circle at 14% 16%, rgba(168, 85, 247, 0.42), transparent 44%),
+        radial-gradient(circle at 86% 22%, rgba(192, 132, 252, 0.28), transparent 46%),
+        radial-gradient(circle at 52% 92%, rgba(126, 34, 206, 0.34), transparent 52%),
+        linear-gradient(155deg, var(--bg-void) 0%, var(--bg-deep) 48%, var(--bg-mid) 100%);
       color: var(--text-primary);
       display: flex;
       justify-content: center;
@@ -70,46 +73,130 @@
       overflow-x: hidden;
     }
 
-    .ambient-grid {
+    .aurora-layer {
+      position: fixed;
+      inset: -25%;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        conic-gradient(from 110deg at 50% 50%,
+          rgba(147, 51, 234, 0.16),
+          rgba(88, 28, 135, 0.06),
+          rgba(192, 132, 252, 0.18),
+          rgba(59, 7, 100, 0.08),
+          rgba(147, 51, 234, 0.16));
+      filter: blur(48px);
+      animation: auroraDrift 18s ease-in-out infinite alternate;
+    }
+
+    @keyframes auroraDrift {
+      0% {
+        transform: translate3d(-2%, -2%, 0) rotate(0deg) scale(1);
+      }
+      50% {
+        transform: translate3d(2%, 1%, 0) rotate(6deg) scale(1.06);
+      }
+      100% {
+        transform: translate3d(-1%, 3%, 0) rotate(-4deg) scale(1.03);
+      }
+    }
+
+    .grid-overlay {
       position: fixed;
       inset: 0;
       pointer-events: none;
-      background-image:
-        linear-gradient(to right, rgba(216, 180, 254, 0.04) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(216, 180, 254, 0.04) 1px, transparent 1px);
-      background-size: 44px 44px;
       z-index: 0;
+      background-image:
+        linear-gradient(to right, rgba(216, 180, 254, 0.055) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(216, 180, 254, 0.055) 1px, transparent 1px);
+      background-size: 42px 42px;
+      animation: gridPulse 7s ease-in-out infinite;
+    }
+
+    @keyframes gridPulse {
+      0%, 100% {
+        opacity: 0.65;
+      }
+      50% {
+        opacity: 1;
+      }
     }
 
     .glass-shell {
       position: relative;
       z-index: 1;
       width: 100%;
-      max-width: 880px;
+      max-width: 900px;
       background: var(--glass-shell);
-      backdrop-filter: blur(var(--blur-strength)) saturate(155%);
-      -webkit-backdrop-filter: blur(var(--blur-strength)) saturate(155%);
+      backdrop-filter: blur(var(--blur-heavy)) saturate(170%);
+      -webkit-backdrop-filter: blur(var(--blur-heavy)) saturate(170%);
       border: 1.5px solid var(--border-bright);
       box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.55),
-        inset 0 1px 0 rgba(255, 255, 255, 0.16),
-        0 0 36px rgba(147, 51, 234, 0.22);
+        0 24px 70px rgba(0, 0, 0, 0.65),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22),
+        0 0 42px rgba(168, 85, 247, 0.28);
       padding: var(--inner-pad);
-      animation: shellEnter 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+      overflow: hidden;
+      animation: shellBoot 0.65s cubic-bezier(0.16, 1, 0.3, 1) both, shellBreath 6s ease-in-out 0.7s infinite;
     }
 
-    @keyframes shellEnter {
-      from {
+    .glass-shell::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 65%;
+      height: 100%;
+      pointer-events: none;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(233, 213, 255, 0.08),
+        rgba(255, 255, 255, 0.14),
+        rgba(233, 213, 255, 0.08),
+        transparent
+      );
+      transform: skewX(-22deg);
+      animation: lightSweep 8.5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    }
+
+    @keyframes shellBoot {
+      0% {
         opacity: 0;
-        transform: translateY(14px);
+        transform: translateY(22px) scale(0.98);
       }
-      to {
+      100% {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes shellBreath {
+      0%, 100% {
+        box-shadow:
+          0 24px 70px rgba(0, 0, 0, 0.65),
+          inset 0 1px 0 rgba(255, 255, 255, 0.22),
+          0 0 36px rgba(168, 85, 247, 0.24);
+      }
+      50% {
+        box-shadow:
+          0 28px 78px rgba(0, 0, 0, 0.7),
+          inset 0 1px 0 rgba(255, 255, 255, 0.3),
+          0 0 54px rgba(192, 132, 252, 0.38);
+      }
+    }
+
+    @keyframes lightSweep {
+      0% {
+        left: -120%;
+      }
+      45%, 100% {
+        left: 165%;
       }
     }
 
     .top-header {
+      position: relative;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
@@ -122,9 +209,10 @@
     .title-wrap h1 {
       font-size: var(--title-fs);
       font-weight: 700;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.015em;
       color: var(--text-primary);
       margin-bottom: 4px;
+      text-shadow: 0 0 18px rgba(192, 132, 252, 0.35);
     }
 
     .title-wrap p {
@@ -142,44 +230,55 @@
 
     .official-tag {
       font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
+      font-weight: 700;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 6px 10px;
-      background: rgba(147, 51, 234, 0.24);
-      border: 1px solid var(--border-glass);
-      color: #f3e8ff;
+      padding: 6px 11px;
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.36), rgba(88, 28, 135, 0.32));
+      border: 1px solid var(--border-bright);
+      color: #faf5ff;
+      box-shadow: 0 0 16px rgba(168, 85, 247, 0.25);
     }
 
     .sound-toggle {
       font-size: 11.5px;
       font-weight: 600;
-      padding: 6px 10px;
+      padding: 6px 11px;
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid var(--border-glass);
       color: var(--text-secondary);
       cursor: pointer;
-      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+      transition: transform 0.16s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .sound-toggle:hover,
-    .sound-toggle.active {
-      background: rgba(168, 85, 247, 0.28);
+    .sound-toggle:hover {
+      transform: translateY(-1px);
       border-color: var(--border-bright);
       color: #ffffff;
+    }
+
+    .sound-toggle:active {
+      transform: scale(0.96);
+    }
+
+    .sound-toggle.active {
+      background: rgba(168, 85, 247, 0.32);
+      border-color: var(--border-bright);
+      color: #ffffff;
+      box-shadow: 0 0 14px rgba(168, 85, 247, 0.3);
     }
 
     .chat-stage {
       height: var(--chat-h);
       overflow-y: auto;
       background: var(--glass-input);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(var(--blur-card)) saturate(150%);
+      -webkit-backdrop-filter: blur(var(--blur-card)) saturate(150%);
       border: 1px solid var(--border-glass);
       padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 13px;
+      gap: 14px;
       margin-bottom: 16px;
       scroll-behavior: smooth;
     }
@@ -189,96 +288,114 @@
     }
 
     .chat-stage::-webkit-scrollbar-track {
-      background: rgba(10, 7, 22, 0.4);
+      background: rgba(9, 6, 20, 0.55);
     }
 
     .chat-stage::-webkit-scrollbar-thumb {
-      background: rgba(192, 132, 252, 0.35);
+      background: rgba(192, 132, 252, 0.42);
     }
 
     .bubble {
-      max-width: 88%;
+      max-width: 89%;
       padding: 12px 15px;
       font-size: var(--msg-fs);
-      line-height: 1.55;
+      line-height: 1.56;
       white-space: pre-wrap;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      animation: msgSlideIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+      backdrop-filter: blur(var(--blur-card)) saturate(155%);
+      -webkit-backdrop-filter: blur(var(--blur-card)) saturate(155%);
+      animation: bubblePopIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
-    @keyframes msgSlideIn {
-      from {
+    @keyframes bubblePopIn {
+      0% {
         opacity: 0;
-        transform: translateY(10px) scale(0.99);
+        transform: translateY(14px) scale(0.96);
+        box-shadow: 0 0 0 rgba(192, 132, 252, 0);
       }
-      to {
+      55% {
+        opacity: 1;
+        box-shadow: 0 0 22px rgba(192, 132, 252, 0.32);
+      }
+      100% {
         opacity: 1;
         transform: translateY(0) scale(1);
+        box-shadow: 0 0 12px rgba(147, 51, 234, 0.14);
       }
     }
 
     .bubble.bot {
       align-self: flex-start;
-      background: linear-gradient(145deg, var(--glass-card), rgba(22, 13, 45, 0.66));
+      background: linear-gradient(145deg, var(--glass-card), rgba(20, 11, 44, 0.72));
       border: 1px solid var(--border-glass);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
       color: var(--text-primary);
+    }
+
+    .bubble.bot.typing-active {
+      border-color: var(--border-bright);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.22),
+        0 0 24px rgba(168, 85, 247, 0.3);
     }
 
     .bubble.user {
       align-self: flex-end;
-      background: linear-gradient(145deg, var(--glass-user), rgba(34, 15, 68, 0.72));
+      background: linear-gradient(145deg, var(--glass-user), rgba(36, 14, 74, 0.78));
       border: 1px solid var(--border-bright);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.22),
+        0 0 18px rgba(147, 51, 234, 0.22);
       color: #ffffff;
     }
 
     .typing-dots {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       height: 18px;
+      padding: 0 2px;
     }
 
     .typing-dots span {
-      width: 6px;
-      height: 6px;
-      background: #e9d5ff;
+      width: 7px;
+      height: 7px;
+      background: #f3e8ff;
+      box-shadow: 0 0 10px rgba(216, 180, 254, 0.85);
       display: inline-block;
-      animation: pulseDot 1.1s infinite ease-in-out;
+      animation: waveDot 1.15s infinite ease-in-out;
     }
 
     .typing-dots span:nth-child(2) {
-      animation-delay: 0.18s;
+      animation-delay: 0.16s;
     }
 
     .typing-dots span:nth-child(3) {
-      animation-delay: 0.36s;
+      animation-delay: 0.32s;
     }
 
-    @keyframes pulseDot {
-      0%, 80%, 100% {
+    @keyframes waveDot {
+      0%, 75%, 100% {
         opacity: 0.25;
-        transform: translateY(0);
+        transform: translateY(0) scale(0.88);
       }
-      40% {
+      38% {
         opacity: 1;
-        transform: translateY(-3px);
+        transform: translateY(-4px) scale(1.15);
       }
     }
 
     .cursor-caret {
       display: inline-block;
-      width: 2px;
-      height: 1em;
-      background: #e9d5ff;
+      width: 2.5px;
+      height: 1.05em;
+      background: #f3e8ff;
+      box-shadow: 0 0 10px rgba(216, 180, 254, 0.9);
       margin-left: 2px;
-      vertical-align: -0.12em;
-      animation: blinkCaret 0.75s steps(1, end) infinite;
+      vertical-align: -0.14em;
+      animation: caretFlash 0.7s steps(1, end) infinite;
     }
 
-    @keyframes blinkCaret {
+    @keyframes caretFlash {
       50% {
         opacity: 0;
       }
@@ -289,19 +406,26 @@
       margin-top: 7px;
       font-size: 11px;
       color: var(--text-muted);
-      letter-spacing: 0.02em;
+      letter-spacing: 0.03em;
     }
 
     .composer {
       display: flex;
       background: var(--glass-input);
       border: 1.5px solid var(--border-glass);
-      transition: border-color 0.22s ease, box-shadow 0.22s ease;
+      transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.18s ease;
     }
 
     .composer:focus-within {
       border-color: var(--border-bright);
-      box-shadow: 0 0 18px rgba(168, 85, 247, 0.28);
+      box-shadow:
+        0 0 24px rgba(168, 85, 247, 0.36),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+
+    .composer.pulse-send {
+      transform: scale(0.992);
+      box-shadow: 0 0 32px rgba(216, 180, 254, 0.5);
     }
 
     input[type="text"] {
@@ -328,7 +452,8 @@
   </style>
 </head>
 <body>
-  <div class="ambient-grid" aria-hidden="true"></div>
+  <div class="aurora-layer" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
 
   <main class="glass-shell">
     <header class="top-header">
@@ -353,7 +478,7 @@
       <input
         type="text"
         id="questionInput"
-        placeholder="Ask a question about the CBA history presentation and press Enter..."
+        placeholder="Ask anything about the CBA history presentation and press Enter..."
         autocomplete="off"
         required
       />
@@ -409,38 +534,67 @@ ${FULL_CBA_KNOWLEDGE}
 Strict Rules:
 1. Never say you are Gemini, Google AI, or an AI model. If asked who or what you are, respond with: "${BOT_IDENTITY}"
 2. If asked who created the presentation, who made it, or anything about the creator/author, answer that ${CREATOR_NAME} created the presentation.
-3. Answer questions thoroughly and clearly using the CBA facts above plus historical knowledge about Eurasia/Russia, Central Asia, Silk Roads, Khyber Pass, Punjab, the 1894 Gazetteer, the 1911 Census, the August 1947 Partition, post-1950 migration, and historical/archival methods.
-4. If a question is clearly unrelated to these topics (such as video games, sports, cooking, movies, anime, weather, or unrelated homework), reply strictly with: Question not related
-5. Remember earlier messages from both the user and assistant in this conversation.
+3. Users may ask using casual slang, abbreviations, typos, or informal phrasing (e.g., "who made dis", "when did ppl move", "wat abt 1947", "cap or legit", "wats da proof", "u gemini?"). Understand their intent clearly and respond using the CBA facts and historical context.
+4. Answer questions thoroughly and clearly using the CBA facts above plus historical knowledge about Eurasia/Russia, Central Asia, Silk Roads, Khyber Pass, Punjab, the 1894 Gazetteer, the 1911 Census, the August 1947 Partition, post-1950 migration, and historical/archival methods.
+5. If a question is clearly unrelated to these topics (such as video games, sports, cooking, movies, anime, weather, or unrelated homework), reply strictly with: Question not related
+6. Remember earlier messages from both the user and assistant in this conversation.
 `.trim();
+
+    // Slang, shorthand, and typo normalization so intent is caught even if an API is slow/offline
+    const SLANG_REPLACEMENTS = [
+      [/\bwho\s+(made|built|did|cooked up|dropped|put together)\s+(dis|this|da|it|pres|presentation|cba)\b/gi, "who created this presentation"],
+      [/\b(u|ur|yu|r u|are u)\s+(gemini|google|ai|a bot|bot)\b/gi, "who are you"],
+      [/\b(wat|wut|whut|wt|wht)\b/gi, "what"],
+      [/\b(da|dis|dat|dem|dey|ppl|peeps)\b/gi, "the people"],
+      [/\b(rn|fr|ngl|tbh|idk|idc|smh|bet|legit|cap|no cap|sus)\b/gi, " "],
+      [/\b(abt|bout|ab)\b/gi, "about"],
+      [/\b(bcz|bc|cuz|cos|coz|y|whyy)\b/gi, "why"],
+      [/\b(wen|whn|wenever)\b/gi, "when"],
+      [/\b(whr|wer|wherez)\b/gi, "where"],
+      [/\b(ppl|peeps|folks|fam)\b/gi, "people"],
+      [/\b(movin|moving|moved|bounced|dip|dipped|left|travellin|traveling|traveled)\b/gi, "migration"],
+      [/\b(pak|pkstn)\b/gi, "pakistan"],
+      [/\b(rus|rusia|russiaa)\b/gi, "russia"],
+      [/\b(punjb|punjaab)\b/gi, "punjab"],
+      [/\b(ghumanz|ghumann|ghamaan|ghummanz)\b/gi, "ghuman"]
+    ];
+
+    function normalizeSlang(raw) {
+      let out = (raw || "").toLowerCase().trim();
+      for (const [pattern, replacement] of SLANG_REPLACEMENTS) {
+        out = out.replace(pattern, replacement);
+      }
+      return out.replace(/\s+/g, " ").trim();
+    }
 
     const DETAILED_TOPICS = [
       {
-        terms: ["when", "date", "year", "time", "how long", "happen", "happened", "timeline"],
-        reply: `${BOT_IDENTITY} The Russia-to-Pakistan migration story has no proven date or written record showing the Ghuman family leaving Russia. In the historical records used in the presentation: the Sialkot District Gazetteer is from 1894 (recording early movement via Delhi and Jammu to Sialkot), the Punjab Census with Ghuman counts is from 1911, the Partition of Punjab happened in August 1947 (with about 14 million people crossing new borders), and wider migration to places like Britain, Ireland, Canada, the US, and Gulf countries began starting in the 1950s.`
+        terms: ["when", "date", "year", "time", "how long", "happen", "happened", "timeline", "old", "century", "centuries", "ago"],
+        reply: `${BOT_IDENTITY} The Russia-to-Pakistan migration story has no proven date or written record showing the Ghuman family leaving Russia. In the records covered in the presentation: the Sialkot District Gazetteer is from 1894 (recording early movement via Delhi and Jammu to Sialkot), the Punjab Census with Ghuman counts is from 1911, the Partition of Punjab happened in August 1947 (with around 14 million people crossing new borders), and wider migration to places like Britain, Ireland, Canada, the US, and Gulf countries began starting in the 1950s.`
       },
       {
-        terms: ["russia", "4,500", "4500", "cold", "eurasia", "silk road", "samarkand", "bukhara", "khyber", "mountain", "steppe", "route", "corridor", "migrate", "migration", "drought", "trade", "war"],
-        reply: `${BOT_IDENTITY} Russia to Punjab is more than 4,500 kilometers across cold regions, open plains, mountain passes, and river valleys. Travelers and traders moved over long periods—passing through hubs like Samarkand and Bukhara along Silk Roads and mountain gaps such as the Khyber Pass—often staying near water and crops for years. However, old trade routes show travel across Asia was possible; they do not prove the Ghuman family walked from Russia without written records naming the family.`
+        terms: ["russia", "4,500", "4500", "cold", "eurasia", "silk road", "samarkand", "bukhara", "khyber", "mountain", "steppe", "route", "corridor", "migrate", "migration", "drought", "trade", "war", "km", "kilometers"],
+        reply: `${BOT_IDENTITY} Russia to Punjab spans more than 4,500 kilometers across cold land, open plains, mountain passes, and river valleys. Travelers and traders moved over long periods—passing through hubs like Samarkand and Bukhara along Silk Roads and mountain gaps like the Khyber Pass—often staying near water and crops for years. Even so, old trade routes show travel across Asia was possible; they do not prove the Ghuman family walked from Russia without written records naming the family.`
       },
       {
-        terms: ["1894", "gazetteer", "1911", "census", "7,579", "7579", "sialkot", "gurdaspur", "gujranwala", "amritsar", "lyallpur", "sangrur", "jammu", "delhi", "sanpal", "ghumman", "ghuman", "punjab", "glossary", "21", "twelve", "village", "villages"],
-        reply: `${BOT_IDENTITY} Written South Asian sources give detailed records in Punjab: the 1894 Sialkot District Gazetteer traces early roots near Delhi, then Jammu, and into Sialkot through Raja Sanpal Janjua and Raja Ghumman. A Glossary of the Tribes and Castes of the Punjab (1911) lists 21 Ghuman branches with farms across areas including Gujranwala, Gurdaspur, Amritsar, and Lyallpur, and the 1911 Census counted 7,579 Ghuman people in Sialkot District alone plus over twelve villages in Gurdaspur and Sangrur.`
+        terms: ["1894", "gazetteer", "1911", "census", "7,579", "7579", "sialkot", "gurdaspur", "gujranwala", "amritsar", "lyallpur", "sangrur", "jammu", "delhi", "sanpal", "ghumman", "ghuman", "punjab", "glossary", "21", "twelve", "village", "villages", "clan", "branch", "branches"],
+        reply: `${BOT_IDENTITY} Written South Asian sources record Ghuman history in Punjab: the 1894 Sialkot District Gazetteer traces early roots near Delhi, then Jammu, and into Sialkot through Raja Sanpal Janjua and Raja Ghumman. A Glossary of the Tribes and Castes of the Punjab (1911) lists 21 Ghuman branches with farms across areas including Gujranwala, Gurdaspur, Amritsar, and Lyallpur, and the 1911 Census counted 7,579 Ghuman people in Sialkot District alone plus over twelve villages in Gurdaspur and Sangrur.`
       },
       {
-        terms: ["1947", "partition", "india", "pakistan", "14 million", "border", "1950", "britain", "ireland", "canada", "gulf", "train", "refugee"],
-        reply: `${BOT_IDENTITY} In August 1947, a new border split Punjab between Pakistan and India, forcing many families to leave homes quickly as roughly 14 million people crossed new borders. The border placed Sialkot in Pakistan and Gurdaspur in India, reshaping where families lived before and after 1947, while starting in the 1950s Ghuman families also moved from Punjab to Britain, Ireland, Canada, the US, and Gulf countries.`
+        terms: ["1947", "partition", "india", "pakistan", "14 million", "border", "1950", "britain", "ireland", "canada", "gulf", "train", "refugee", "split"],
+        reply: `${BOT_IDENTITY} In August 1947, a new border split Punjab between Pakistan and India, forcing many families to leave homes quickly as roughly 14 million people crossed new borders. That border put Sialkot in Pakistan and Gurdaspur in India, reshaping where families lived before and after 1947, while starting in the 1950s Ghuman families also moved from Punjab to Britain, Ireland, Canada, the US, and Gulf countries.`
       },
       {
-        terms: ["source", "sources", "proof", "evidence", "archive", "archives", "familysearch", "ancestry", "oral", "elder", "map", "maps", "spelling", "ghauman", "ghamman", "check", "proven"],
-        reply: `${BOT_IDENTITY} The presentation tests oral stories against primary and secondary sources—including the 1911 Punjab Census, Sialkot and Gurdaspur district gazetteers, UK National Archives records, UNESCO Silk Roads Programme, Encyclopaedia Britannica, and FamilySearch/Ancestry—while checking map years, spelling differences (Ghuman, Ghumman, Ghamman), and three proof checks (when people moved, which towns they passed, and written books listing the name).`
+        terms: ["source", "sources", "proof", "evidence", "archive", "archives", "familysearch", "ancestry", "oral", "elder", "elders", "map", "maps", "spelling", "ghauman", "ghamman", "check", "proven", "true", "real", "fake"],
+        reply: `${BOT_IDENTITY} The presentation checks oral stories with elders against primary and secondary sources—including the 1911 Punjab Census, Sialkot and Gurdaspur district gazetteers, UK National Archives records, UNESCO Silk Roads Programme, Encyclopaedia Britannica, and FamilySearch/Ancestry—while checking map years, spelling differences (Ghuman, Ghumman, Ghamman), and three proof checks (when people moved, which towns they passed, and written books listing the name).`
       }
     ];
 
     const UNRELATED_TERMS = [
-      "minecraft", "roblox", "fortnite", "football", "soccer", "basketball", "cricket", "tennis",
-      "recipe", "cook", "pizza", "pasta", "burger", "movie", "film", "anime", "song", "music",
-      "tiktok", "weather", "temperature", "stock", "crypto", "bitcoin", "algebra", "geometry"
+      "minecraft", "roblox", "fortnite", "valorant", "gta", "football", "soccer", "basketball",
+      "cricket", "tennis", "recipe", "cook", "cooking", "pizza", "pasta", "burger", "movie",
+      "film", "anime", "song", "music", "rap", "tiktok", "weather", "temperature", "stock",
+      "crypto", "bitcoin", "algebra", "geometry", "calculus"
     ];
 
     const chatStage = document.getElementById("chatStage");
@@ -465,42 +619,55 @@ Strict Rules:
       return audioCtx;
     }
 
-    function playTone(freq, duration, type = "sine", gainVal = 0.035, delay = 0) {
+    function playSynthTone(freq, duration, type = "sine", gainPeak = 0.04, delay = 0, slideTo = null) {
       const ctx = getAudioContext();
       if (!ctx) return;
 
-      const startTime = ctx.currentTime + delay;
+      const t0 = ctx.currentTime + delay;
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
 
       osc.type = type;
-      osc.frequency.setValueAtTime(freq, startTime);
+      osc.frequency.setValueAtTime(freq, t0);
+      if (slideTo !== null) {
+        osc.frequency.exponentialRampToValueAtTime(Math.max(40, slideTo), t0 + duration);
+      }
 
-      gain.gain.setValueAtTime(0.0001, startTime);
-      gain.gain.exponentialRampToValueAtTime(gainVal, startTime + 0.012);
-      gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+      gain.gain.setValueAtTime(0.0001, t0);
+      gain.gain.exponentialRampToValueAtTime(gainPeak, t0 + 0.014);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
 
       osc.connect(gain);
       gain.connect(ctx.destination);
 
-      osc.start(startTime);
-      osc.stop(startTime + duration + 0.02);
+      osc.start(t0);
+      osc.stop(t0 + duration + 0.025);
     }
 
-    function playSendSound() {
-      playTone(540, 0.07, "sine", 0.03, 0);
-      playTone(720, 0.09, "sine", 0.03, 0.045);
+    function playLaunchWhoosh() {
+      playSynthTone(240, 0.16, "sawtooth", 0.02, 0, 680);
+      playSynthTone(587.33, 0.09, "sine", 0.035, 0.04, null);
+      playSynthTone(880, 0.12, "triangle", 0.028, 0.08, null);
     }
 
-    function playKeyTick(index) {
-      if (index % 3 !== 0) return;
-      const notes = [620, 660, 700, 740];
-      playTone(notes[index % notes.length], 0.025, "triangle", 0.012, 0);
+    function playThinkingPulse() {
+      playSynthTone(440, 0.06, "sine", 0.015, 0, 493.88);
     }
 
-    function playDoneChime() {
-      playTone(660, 0.11, "sine", 0.03, 0);
-      playTone(880, 0.16, "sine", 0.03, 0.08);
+    function playTypingSound(index) {
+      const scale = [523.25, 587.33, 659.25, 783.99, 880, 1046.5];
+      const note = scale[index % scale.length];
+      playSynthTone(note, 0.032, "triangle", 0.016, 0);
+      if (index % 5 === 0) {
+        playSynthTone(note * 1.5, 0.025, "sine", 0.008, 0.008);
+      }
+    }
+
+    function playArrivalChord() {
+      playSynthTone(523.25, 0.18, "sine", 0.032, 0);
+      playSynthTone(659.25, 0.2, "sine", 0.03, 0.06);
+      playSynthTone(783.99, 0.24, "triangle", 0.032, 0.12);
+      playSynthTone(1046.5, 0.28, "sine", 0.024, 0.18);
     }
 
     soundToggle.addEventListener("click", () => {
@@ -509,7 +676,8 @@ Strict Rules:
       soundToggle.classList.toggle("active", soundEnabled);
       soundToggle.setAttribute("aria-pressed", String(soundEnabled));
       if (soundEnabled) {
-        playTone(600, 0.07, "sine", 0.025, 0);
+        playSynthTone(659.25, 0.08, "sine", 0.03, 0);
+        playSynthTone(987.77, 0.11, "sine", 0.03, 0.06);
       }
     });
 
@@ -528,49 +696,52 @@ Strict Rules:
     syncViewportLayout();
     window.addEventListener("resize", syncViewportLayout);
 
-    function isGreeting(q) {
-      const t = q.toLowerCase().trim();
-      return ["hi", "hello", "hey", "yo", "sup", "good morning", "good afternoon", "good evening"].includes(t);
+    function isGreeting(raw) {
+      const norm = normalizeSlang(raw);
+      return ["hi", "hello", "hey", "yo", "sup", "what is up", "good morning", "good afternoon", "good evening"].includes(norm);
     }
 
-    function asksCreator(q) {
-      const t = q.toLowerCase();
+    function asksCreator(raw) {
+      const norm = normalizeSlang(raw);
       return (
-        t.includes("who created") ||
-        t.includes("who made") ||
-        t.includes("who built") ||
-        t.includes("created by") ||
-        t.includes("creator") ||
-        t.includes("author") ||
-        t.includes("made this presentation") ||
-        t.includes("who is behind")
+        norm.includes("who created") ||
+        norm.includes("who made") ||
+        norm.includes("who built") ||
+        norm.includes("created by") ||
+        norm.includes("creator") ||
+        norm.includes("author") ||
+        norm.includes("made this presentation") ||
+        norm.includes("who is behind")
       );
     }
 
-    function asksIdentity(q) {
-      const t = q.toLowerCase();
+    function asksIdentity(raw) {
+      const norm = normalizeSlang(raw);
       return (
-        t.includes("who are you") ||
-        t.includes("what are you") ||
-        t.includes("are you gemini") ||
-        t.includes("gemini") ||
-        t.includes("what model")
+        norm.includes("who are you") ||
+        norm.includes("what are you") ||
+        norm.includes("are you gemini") ||
+        norm.includes("gemini") ||
+        norm.includes("what model")
       );
     }
 
-    function isClearlyUnrelated(q) {
-      const t = q.toLowerCase();
-      if (asksCreator(t) || asksIdentity(t) || isGreeting(t)) return false;
+    function isClearlyUnrelated(raw) {
+      const norm = normalizeSlang(raw);
+      if (asksCreator(norm) || asksIdentity(norm) || isGreeting(norm)) return false;
+
       const allowedTopicWords = [
         "russia", "russian", "eurasia", "eurasian", "pakistan", "india", "punjab", "partition",
         "1947", "1911", "1894", "1950", "ghuman", "ghumman", "ghamman", "sialkot", "gurdaspur",
         "gujranwala", "amritsar", "lyallpur", "sangrur", "jammu", "delhi", "silk road", "khyber",
         "samarkand", "bukhara", "census", "gazetteer", "archive", "history", "historical", "cba",
         "migration", "migrate", "map", "maps", "source", "sources", "family", "oral", "presentation",
-        "slide", "when", "date", "year", "happen", "happened", "proof", "record", "records"
+        "slide", "when", "date", "year", "happen", "happened", "proof", "record", "records",
+        "britain", "ireland", "canada", "gulf", "clan", "village", "villages"
       ];
-      if (allowedTopicWords.some((w) => t.includes(w))) return false;
-      return UNRELATED_TERMS.some((w) => t.includes(w));
+
+      if (allowedTopicWords.some((w) => norm.includes(w))) return false;
+      return UNRELATED_TERMS.some((w) => norm.includes(w));
     }
 
     function addUserBubble(text) {
@@ -583,17 +754,18 @@ Strict Rules:
 
     function createThinkingBubble() {
       const box = document.createElement("div");
-      box.className = "bubble bot";
+      box.className = "bubble bot typing-active";
       box.innerHTML = `<span class="typing-dots"><span></span><span></span><span></span></span>`;
       chatStage.appendChild(box);
       chatStage.scrollTop = chatStage.scrollHeight;
+      playThinkingPulse();
       return box;
     }
 
-    function typeBotReply(text, metaText = "Official CBA Bot") {
+    function typeBotReply(text, metaText = "From Russia to Pakistan?") {
       return new Promise((resolve) => {
         const box = document.createElement("div");
-        box.className = "bubble bot";
+        box.className = "bubble bot typing-active";
 
         const textSpan = document.createElement("span");
         const caretSpan = document.createElement("span");
@@ -603,7 +775,7 @@ Strict Rules:
         metaSpan.className = "meta-footer";
         metaSpan.textContent = metaText;
         metaSpan.style.opacity = "0";
-        metaSpan.style.transition = "opacity 0.25s ease";
+        metaSpan.style.transition = "opacity 0.28s ease";
 
         box.appendChild(textSpan);
         box.appendChild(caretSpan);
@@ -611,19 +783,22 @@ Strict Rules:
         chatStage.appendChild(box);
 
         let idx = 0;
-        const speed = text.length > 260 ? 11 : 16;
+        const speed = text.length > 260 ? 10 : 14;
 
         function step() {
           if (idx < text.length) {
             textSpan.textContent += text.charAt(idx);
-            playKeyTick(idx);
+            if (idx % 2 === 0) {
+              playTypingSound(idx);
+            }
             idx += 1;
             chatStage.scrollTop = chatStage.scrollHeight;
             setTimeout(step, speed);
           } else {
             caretSpan.remove();
+            box.classList.remove("typing-active");
             metaSpan.style.opacity = "1";
-            playDoneChime();
+            playArrivalChord();
             chatStage.scrollTop = chatStage.scrollHeight;
             resolve();
           }
@@ -652,162 +827,8 @@ Strict Rules:
       }
       if (isClearlyUnrelated(q)) return "Question not related";
 
-      const t = q.toLowerCase();
+      const norm = normalizeSlang(q);
       let best = null;
       let bestScore = 0;
 
-      for (const m of DETAILED_TOPICS) {
-        let score = 0;
-        for (const term of m.terms) {
-          if (t.includes(term)) score += 1;
-        }
-        if (score > bestScore) {
-          bestScore = score;
-          best = m;
-        }
-      }
-      if (best && bestScore > 0) return best.reply;
-
-      const priorUserText = memory
-        .filter((item) => item.role === "user")
-        .slice(-3)
-        .map((item) => item.content.toLowerCase())
-        .join(" ");
-
-      for (const m of DETAILED_TOPICS) {
-        if (m.terms.some((term) => priorUserText.includes(term))) {
-          return m.reply;
-        }
-      }
-
-      return "Question not related";
-    }
-
-    async function fetchWithTimeout(url, options, timeoutMs = 6000) {
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), timeoutMs);
-      try {
-        const res = await fetch(url, { ...options, signal: controller.signal });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res;
-      } finally {
-        clearTimeout(timer);
-      }
-    }
-
-    async function fetchFreeModel(messages) {
-      const endpoints = [
-        {
-          url: "https://text.pollinations.ai/openai/chat/completions",
-          body: { model: "openai", messages, temperature: 0.2 }
-        },
-        {
-          url: "https://text.pollinations.ai/",
-          isPlainPrompt: true
-        }
-      ];
-
-      for (const ep of endpoints) {
-        try {
-          if (ep.isPlainPrompt) {
-            const res = await fetchWithTimeout(
-              ep.url,
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  messages,
-                  model: "openai",
-                  temperature: 0.2
-                })
-              },
-              6000
-            );
-            const contentType = res.headers.get("content-type") || "";
-            if (contentType.includes("application/json")) {
-              const json = await res.json();
-              const text = json?.choices?.[0]?.message?.content || json?.content || "";
-              if (text.trim()) return text;
-            } else {
-              const text = await res.text();
-              if (text.trim()) return text;
-            }
-          } else {
-            const res = await fetchWithTimeout(
-              ep.url,
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(ep.body)
-              },
-              6000
-            );
-            const json = await res.json();
-            const text = json?.choices?.[0]?.message?.content || "";
-            if (text.trim()) return text;
-          }
-        } catch (_) {
-          // Try next endpoint
-        }
-      }
-
-      throw new Error("All free model endpoints timed out or failed");
-    }
-
-    async function answerQuestion(q) {
-      if (asksCreator(q)) {
-        return { text: `${CREATOR_NAME} created this presentation.`, note: "From Russia to Pakistan?" };
-      }
-      if (asksIdentity(q)) {
-        return { text: BOT_IDENTITY, note: "From Russia to Pakistan?" };
-      }
-      if (isClearlyUnrelated(q)) {
-        return { text: "Question not related", note: "From Russia to Pakistan?" };
-      }
-
-      const messages = [
-        { role: "system", content: SYSTEM_RULES },
-        ...memory.slice(-14),
-        { role: "user", content: q }
-      ];
-
-      try {
-        const raw = await fetchFreeModel(messages);
-        return {
-          text: normalizeModelReply(raw, q),
-          note: "From Russia to Pakistan?"
-        };
-      } catch (_) {
-        return {
-          text: fallbackFromDeck(q),
-          note: "From Russia to Pakistan?"
-        };
-      }
-    }
-
-    composerForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const q = questionInput.value.trim();
-      if (!q) return;
-
-      questionInput.value = "";
-      questionInput.disabled = true;
-
-      playSendSound();
-      addUserBubble(q);
-
-      const thinkingBubble = createThinkingBubble();
-      const result = await answerQuestion(q);
-      thinkingBubble.remove();
-
-      await typeBotReply(result.text, result.note);
-
-      memory.push({ role: "user", content: q });
-      memory.push({ role: "assistant", content: result.text });
-
-      questionInput.disabled = false;
-      questionInput.focus();
-    });
-  </script>
-</body>
-</html>
+      for (const
