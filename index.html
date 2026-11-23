@@ -6,42 +6,43 @@
   <title>From Russia to Pakistan?</title>
   <style>
     :root {
-      --bg-base: #0a0c10;
-      --bg-elevated: #121620;
-      --bg-card: #161b28;
-      --bg-user: #142230;
-      --border-main: #2d3548;
-      --border-accent: #7c8aa6;
-      --text-primary: #f3f5f8;
-      --text-secondary: #b6c0d4;
-      --text-muted: #8893a8;
-      --shell-max-w: 840px;
-      --outer-pad: 24px;
+      --bg-void: #07050f;
+      --bg-deep: #110924;
+      --bg-panel: rgba(16, 10, 32, 0.88);
+      --bg-card: rgba(27, 15, 54, 0.92);
+      --bg-user: rgba(38, 17, 74, 0.94);
+      --border-neon: #9333ea;
+      --border-glow: #c084fc;
+      --border-subtle: rgba(192, 132, 252, 0.35);
+      --text-main: #f8f5ff;
+      --text-sub: #d4c4f7;
+      --text-dim: #9e8ac9;
+      --accent-purple: #7e22ce;
+      --accent-bright: #a855f7;
+      --outer-pad: 22px;
       --inner-pad: 24px;
-      --chat-h: 400px;
-      --title-size: 24px;
-      --subtitle-size: 14px;
-      --msg-size: 14.5px;
+      --chat-h: 410px;
+      --title-fs: 25px;
+      --sub-fs: 14px;
+      --msg-fs: 14.5px;
     }
 
     html[data-device="tablet"] {
-      --shell-max-w: 720px;
-      --outer-pad: 18px;
+      --outer-pad: 16px;
       --inner-pad: 20px;
-      --chat-h: 360px;
-      --title-size: 21px;
-      --subtitle-size: 13.5px;
-      --msg-size: 14px;
+      --chat-h: 365px;
+      --title-fs: 22px;
+      --sub-fs: 13.5px;
+      --msg-fs: 14px;
     }
 
     html[data-device="mobile"] {
-      --shell-max-w: 100%;
       --outer-pad: 10px;
       --inner-pad: 14px;
-      --chat-h: 320px;
-      --title-size: 19px;
-      --subtitle-size: 13px;
-      --msg-size: 13.5px;
+      --chat-h: 325px;
+      --title-fs: 19px;
+      --sub-fs: 13px;
+      --msg-fs: 13.5px;
     }
 
     * {
@@ -54,8 +55,11 @@
 
     body {
       min-height: 100vh;
-      background: linear-gradient(180deg, #090b0f 0%, #10141e 55%, #0b0e14 100%);
-      color: var(--text-primary);
+      background:
+        radial-gradient(circle at 18% 18%, rgba(168, 85, 247, 0.24), transparent 42%),
+        radial-gradient(circle at 82% 82%, rgba(126, 34, 206, 0.22), transparent 46%),
+        linear-gradient(155deg, var(--bg-void) 0%, var(--bg-deep) 55%, #090614 100%);
+      color: var(--text-main);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -64,36 +68,40 @@
 
     .frame {
       width: 100%;
-      max-width: var(--shell-max-w);
-      background: var(--bg-elevated);
-      border: 2px solid var(--border-accent);
+      max-width: 860px;
+      background: var(--bg-panel);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 2px solid var(--border-neon);
+      box-shadow: 0 0 32px rgba(147, 51, 234, 0.28);
       padding: var(--inner-pad);
     }
 
     .head {
-      border-bottom: 1px solid var(--border-main);
+      border-bottom: 1px solid var(--border-subtle);
       padding-bottom: 14px;
       margin-bottom: 16px;
     }
 
     .head h1 {
-      font-size: var(--title-size);
+      font-size: var(--title-fs);
       font-weight: 700;
-      color: var(--text-primary);
+      letter-spacing: 0.3px;
+      color: var(--text-main);
       margin-bottom: 5px;
     }
 
     .head p {
-      font-size: var(--subtitle-size);
-      color: var(--text-secondary);
+      font-size: var(--sub-fs);
+      color: var(--text-sub);
       line-height: 1.45;
     }
 
     .log {
       height: var(--chat-h);
       overflow-y: auto;
-      background: var(--bg-base);
-      border: 1px solid var(--border-main);
+      background: rgba(8, 5, 18, 0.92);
+      border: 1px solid var(--border-subtle);
       padding: 16px;
       display: flex;
       flex-direction: column;
@@ -104,30 +112,30 @@
     .entry {
       max-width: 90%;
       padding: 12px 14px;
-      font-size: var(--msg-size);
+      font-size: var(--msg-fs);
       line-height: 1.5;
       white-space: pre-wrap;
     }
 
     .entry.bot {
       align-self: flex-start;
-      background: var(--bg-card);
-      border: 1px solid var(--border-main);
-      color: var(--text-primary);
+      background: linear-gradient(135deg, var(--bg-card), rgba(18, 10, 38, 0.95));
+      border: 1px solid rgba(168, 85, 247, 0.6);
+      color: var(--text-main);
     }
 
     .entry.user {
       align-self: flex-end;
-      background: var(--bg-user);
-      border: 1px solid #3c5673;
-      color: var(--text-primary);
+      background: linear-gradient(135deg, var(--bg-user), rgba(24, 12, 48, 0.95));
+      border: 1px solid var(--border-glow);
+      color: var(--text-main);
     }
 
     .source-line {
       display: block;
       margin-top: 6px;
       font-size: 11.5px;
-      color: var(--text-muted);
+      color: var(--text-dim);
     }
 
     .form-box {
@@ -137,15 +145,20 @@
     input[type="text"] {
       width: 100%;
       padding: 13px 14px;
-      font-size: var(--msg-size);
-      background: var(--bg-base);
-      color: var(--text-primary);
-      border: 1px solid var(--border-accent);
+      font-size: var(--msg-fs);
+      background: rgba(8, 5, 18, 0.94);
+      color: var(--text-main);
+      border: 1px solid var(--border-neon);
       outline: none;
     }
 
+    input[type="text"]:focus {
+      border-color: var(--border-glow);
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.35);
+    }
+
     input[type="text"]::placeholder {
-      color: var(--text-muted);
+      color: var(--text-dim);
     }
   </style>
 </head>
@@ -415,9 +428,6 @@ Strict Rules:
       for (const ep of endpoints) {
         try {
           if (ep.isPlainPrompt) {
-            const promptText =
-              messages.map((m) => `${m.role.toUpperCase()}: ${m.content}`).join("\n\n") +
-              "\n\nASSISTANT:";
             const res = await fetchWithTimeout(
               ep.url,
               {
