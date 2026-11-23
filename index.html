@@ -178,47 +178,76 @@
     const CREATOR_NAME = "Mohammad Hassan";
     const BOT_IDENTITY = "I am a bot to answer questions and answers according to the CBA of history from russian to pakistan migration.";
 
-    const DECK_FACTS = `
-Title: From Russia to Pakistan? Checking old maps and history records for the Ghuman family. Created by: Mohammad Hassan.
-- Main Question: Family stories say early people moved south from Russia to Pakistan. History books and maps check that claim with real records. (Family Oral Records; Britannica Eurasia Geography)
-- Distance & Pace: Russia to Punjab is more than 4,500 kilometers across cold land and high mountains; travelers walked or rode pack animals. Big moves took many years and families stayed near water and crops before moving on. (Encyclopaedia Britannica World Atlas; UNESCO Silk Roads Programme)
-- Oral Stories vs Written Books: The Russia story has no dates or written papers. Old Punjab books list the Ghuman clan in Delhi, Jammu, and Sialkot. (Sialkot District Gazetteer, 1894)
-- Proof & Checks: Historians need real dates, place names, and written records with the family name; right now no written record shows the Ghuman family leaving Russia. Three checks: when people moved, which towns they passed, and written books listing the name. (The National Archives Historical Research Guide; FamilySearch Genealogical Proof Standard)
-- Reasons for Migration: Good farm land, trade, wars, or bad droughts with little water. (Encyclopaedia Britannica Human Migration)
-- Eurasia & Silk Roads: Central Asia sits between northern Asia and South Asia (Samarkand and Bukhara for over 2,000 years); Silk Roads linked Central Asia, Afghanistan, and northern India; mountain gaps like the Khyber Pass reach the plains; four parts of long land trips: wide open plains, Central Asia towns, mountain passes, and river land in Punjab. Road maps show travel was possible, not that one family walked from Russia. (UNESCO Silk Roads Programme; Encyclopaedia Britannica Khyber Pass; The National Archives)
-- Written Books & Settlement in Punjab: A Glossary of the Tribes and Castes of the Punjab (1911) names the Ghuman group in northern India and Punjab and lists real villages and family branches. Sialkot District Gazetteer (1894) says early ancestors lived near Delhi before Raja Sanpal Janjua moved to Jammu, and his descendant Raja Ghumman moved into Sialkot and started the Ghuman home. From Sialkot, 21 Ghuman branches built farms in Gujranwala, Gurdaspur, Amritsar, and Lyallpur.
-- 1911 Census & Spellings: The 1911 Census counted 7,579 Ghuman people in Sialkot District alone, with more than twelve villages in Gurdaspur and Sangrur also having the Ghuman name. Spellings in books include Ghuman, Ghumman, or Ghamman. (Census of India 1911, Punjab Volume XIV; FamilySearch Name Spelling Guide)
-- 1947 Partition & Later Moves: In August 1947 a new border split Punjab between Pakistan and India; about 14 million people crossed new borders in 1947; Sialkot was placed in Pakistan and Gurdaspur in India. Starting in the 1950s, Ghuman families moved from Punjab to Britain, Ireland, Canada, the US, and Gulf countries. (The National Archives UK Partition Records; Encyclopaedia Britannica Partition of India; Punjab Partition Resettlement Records; UK National Archives Passenger Lists)
-- Methods & Sources: Talking to elders and saving papers; four main record sets (1911 Punjab Census, Sialkot and Gurdaspur district books, UK 1947 files, and FamilySearch/Ancestry records); checking map years; UNESCO Silk Roads Programme; Encyclopaedia Britannica; The National Archives (UK).
+    const FULL_CBA_KNOWLEDGE = `
+Presentation Title: From Russia to Pakistan? Checking old maps and history records for the Ghuman family. Created by: Mohammad Hassan.
+
+Full Slide-by-Slide Facts & Sources:
+1. Main Question: Family stories say early people moved south from Russia to Pakistan. History books and maps check that claim with real records. (Family Oral Records; Britannica Eurasia Geography)
+2. 4,500 Kilometers Across Asia: Russia to Punjab is more than 4,500 kilometers across cold land and high mountains. Long ago travelers walked or rode pack animals on those trips. (Encyclopaedia Britannica World Atlas)
+3. Moving One Step at a Time: Big moves across Asia took many years and many families. People stayed near good water and crops for years before moving on. (UNESCO Silk Roads Programme)
+4. Spoken Stories and Written Books: The Russia story has no dates or written papers. Old Punjab books list the Ghuman clan in Delhi, Jammu, and Sialkot. (Sialkot District Gazetteer, 1894)
+5. Cold Weather and Moving South: One idea says cold weather pushed people south from Russia toward South Asia. Cold weather moved groups in history, but no record ties that trip to the Ghuman family. (Encyclopaedia Britannica Climate History)
+6. What Historians Need for Proof: History proof needs real dates, place names, and written records with the family name. Right now no written record shows the Ghuman family leaving Russia. (The National Archives Historical Research Guide)
+7. Three Checks for Any Move: Historians check three things: when people moved, which towns they passed, and written books listing the name. (FamilySearch Genealogical Proof Standard)
+8. Why Families Moved in History: People moved in history for good farm land, trade, wars, or bad droughts with little water. (Encyclopaedia Britannica Human Migration)
+9. Central Asia in the Middle: Central Asia sits between northern Asia and South Asia. For over 2,000 years travelers passed through towns like Samarkand and Bukhara. (UNESCO Silk Roads Programme)
+10. Old Trade Roads Across Asia: Silk Roads linked Central Asia, Afghanistan, and northern India. Travelers carried goods like silk, spices, and horses along these paths for hundreds of years. (UNESCO Silk Roads Programme)
+11. Mountain Paths Into Punjab: High mountains sit between Central Asia and Punjab. Travelers crossed through mountain gaps like the Khyber Pass to reach the plains. (Encyclopaedia Britannica Khyber Pass)
+12. Four Parts of Long Trips: Long land trips had four parts: wide open plains, Central Asia towns, mountain passes, and river land in Punjab. (UNESCO Silk Roads Programme)
+13. Road Maps Are Not Family Proof: Old trade roads show people could travel across Asia, but they do not prove one family walked from Russia. Records must name the family. (The National Archives Historical Research Guide)
+14. Written Books in South Asia: Written books in South Asia name the Ghuman group in northern India and Punjab. Old district books list real villages and family branches. (A Glossary of the Tribes and Castes of the Punjab, 1911)
+15. From Delhi and Jammu to Sialkot: Punjab books say early ancestors lived near Delhi before Raja Sanpal Janjua moved to Jammu. His descendant Raja Ghumman moved into Sialkot and started the Ghuman home. (Sialkot District Gazetteer, 1894)
+16. Villages Near Five Rivers: Punjab gets its name from five rivers that water good wheat farms. From Sialkot, 21 Ghuman branches built farms in Gujranwala, Gurdaspur, Amritsar, and Lyallpur. (A Glossary of the Tribes and Castes of the Punjab, 1911)
+17. 1911 Census Numbers: The 1911 Census counted 7,579 Ghuman people in Sialkot District alone. More than twelve villages in Gurdaspur and Sangrur also had the Ghuman name. (Census of India 1911, Punjab Volume XIV)
+18. Different Spellings in Books: Writers spelled the name as Ghuman, Ghumman, or Ghamman across languages. Similar place names in other places do not prove shared family roots without records. (FamilySearch Name Spelling Guide)
+19. The 1947 Split of Punjab: In August 1947 a new border split Punjab between Pakistan and India. Many families had to leave their homes quickly when the border line was drawn. (The National Archives UK Partition Records)
+20. 14 Million People on the Move: About 14 million people crossed the new borders in 1947. People rode trains, carts, and walked in large groups recorded in government files and photos. (Encyclopaedia Britannica Partition of India)
+21. How 1947 Split Ghuman Towns: Before 1947, Muslim and Sikh Ghuman families lived near each other in Punjab. The border put Sialkot in Pakistan and Gurdaspur in India, moving families across. (Punjab Partition Resettlement Records)
+22. Talking to Elders and Saving Papers: Older family members remember village names, land papers, and old photos not in school books. Writing down who spoke and when helps check stories. (Oral History Society Guidelines)
+23. Four Main Record Sets Used: 1911 Punjab Census, Sialkot and Gurdaspur district books, UK 1947 files, and FamilySearch records. (National Archives and Census of India)
+24. Checking Every Map and Source: Each source was checked for author, year, and written proof. Arrows only belong where records show real travel, and unknown dates stay unknown. (National Geographic Historical Cartography Standards)
+25. Proven Facts vs. Unproven Ideas: The 1947 move is proven, the Delhi and Jammu to Sialkot path is in Punjab books, and a trip from Russia is not proven. (Sialkot Gazetteer and UK National Archives)
+26. Moving to Other Countries After 1950: Starting in the 1950s, Ghuman families moved from Punjab to Britain, Ireland, Canada, the US, and Gulf countries, shown in travel records. (UK National Archives Passenger Lists)
+27. Checking Family Trees Online: FamilySearch and Ancestry hold old birth and land pages; historians check real scanned pages rather than unverified user guesses. (FamilySearch Research Wiki)
+28. Key Dates in the Record: Punjab books trace movement to Sialkot, 1911 counts 7,579 Ghuman people in Sialkot District, and 1947 brings the Partition border move. (Census of India 1911 and Sialkot Gazetteer)
+29. Gujranwala and Gurdaspur Farms: Ghuman families farmed across Gujranwala and Gurdaspur before 1947; district books record villages, crops, and local family ties in central Punjab. (Punjab District Gazetteers)
+30. Reading Old Maps Carefully: Checking the map year prevents mixing old roads with modern country lines. (National Geographic Historical Cartography Standards)
+31. What History Records Show: Census books, local gazetteers, and 1947 files show Punjab and the border clearly. (History CBA Research Synthesis)
+32. Sources: Census of India 1911 (Punjab Volume XIV); Punjab District Gazetteers (Sialkot and Gurdaspur); The National Archives (UK); UNESCO Silk Roads Programme; Encyclopaedia Britannica; FamilySearch and Ancestry Archives.
 `.trim();
 
     const SYSTEM_RULES = `
 You are answering questions for a school history CBA presentation.
-${DECK_FACTS}
+${FULL_CBA_KNOWLEDGE}
 
-Rules:
-1. Never say you are Gemini, Google AI, or an AI model. If asked who or what you are, state: "${BOT_IDENTITY}"
+Strict Rules:
+1. Never say you are Gemini, Google AI, or an AI model. If asked who or what you are, respond with: "${BOT_IDENTITY}"
 2. If asked who created the presentation, who made it, or anything about the creator/author, answer that ${CREATOR_NAME} created the presentation.
-3. Only answer questions related to the CBA of history from Russia/Eurasia to Pakistan migration (Ghuman family migration, Eurasia routes, Punjab settlement, 1894 gazetteer, 1911 census, 1947 Partition, post-1950 migration, historical evidence/sources/maps, or the presentation/creator). If a question is unrelated, reply strictly with: Question not related
-4. Remember earlier turns in this conversation and stay accurate and clear.
+3. Answer questions thoroughly and clearly using the CBA facts above plus historical knowledge about Eurasia/Russia, Central Asia, Silk Roads, Khyber Pass, Punjab, the 1894 Gazetteer, the 1911 Census, the August 1947 Partition, post-1950 migration, and historical/archival methods.
+4. If a question is clearly unrelated to these topics (such as video games, sports, cooking, movies, anime, weather, or unrelated homework), reply strictly with: Question not related
+5. Remember earlier messages from both the user and assistant in this conversation.
 `.trim();
 
-    const TOPIC_MATCHERS = [
+    const DETAILED_TOPICS = [
+      {
+        terms: ["when", "date", "year", "time", "how long", "happen", "happened", "timeline"],
+        reply: `${BOT_IDENTITY} The Russia-to-Pakistan migration story has no proven date or written record showing the Ghuman family leaving Russia. In the historical records used in the presentation: the Sialkot District Gazetteer is from 1894 (recording early movement via Delhi and Jammu to Sialkot), the Punjab Census with Ghuman counts is from 1911, the Partition of Punjab happened in August 1947 (with about 14 million people crossing new borders), and wider migration to places like Britain, Ireland, Canada, the US, and Gulf countries began starting in the 1950s.`
+      },
       {
         terms: ["russia", "4,500", "4500", "cold", "eurasia", "silk road", "samarkand", "bukhara", "khyber", "mountain", "steppe", "route", "corridor", "migrate", "migration", "drought", "trade", "war"],
-        reply: `${BOT_IDENTITY} The presentation notes that Russia to Punjab is more than 4,500 km across Eurasia, with routes through Central Asia, Silk Roads, and mountain gaps like the Khyber Pass, while no written record currently shows the Ghuman family leaving Russia.`
+        reply: `${BOT_IDENTITY} Russia to Punjab is more than 4,500 kilometers across cold regions, open plains, mountain passes, and river valleys. Travelers and traders moved over long periods—passing through hubs like Samarkand and Bukhara along Silk Roads and mountain gaps such as the Khyber Pass—often staying near water and crops for years. However, old trade routes show travel across Asia was possible; they do not prove the Ghuman family walked from Russia without written records naming the family.`
       },
       {
-        terms: ["1894", "gazetteer", "1911", "census", "7,579", "7579", "sialkot", "gurdaspur", "gujranwala", "amritsar", "lyallpur", "sangrur", "jammu", "delhi", "sanpal", "ghumman", "ghuman", "punjab", "glossary", "21", "twelve"],
-        reply: `${BOT_IDENTITY} Punjab records include the 1894 Sialkot District Gazetteer (traced via Delhi and Jammu to Sialkot), the 1911 Glossary naming 21 Ghuman branches across areas such as Gujranwala, Gurdaspur, Amritsar, and Lyallpur, and the 1911 Census counting 7,579 Ghuman people in Sialkot District.`
+        terms: ["1894", "gazetteer", "1911", "census", "7,579", "7579", "sialkot", "gurdaspur", "gujranwala", "amritsar", "lyallpur", "sangrur", "jammu", "delhi", "sanpal", "ghumman", "ghuman", "punjab", "glossary", "21", "twelve", "village", "villages"],
+        reply: `${BOT_IDENTITY} Written South Asian sources give detailed records in Punjab: the 1894 Sialkot District Gazetteer traces early roots near Delhi, then Jammu, and into Sialkot through Raja Sanpal Janjua and Raja Ghumman. A Glossary of the Tribes and Castes of the Punjab (1911) lists 21 Ghuman branches with farms across areas including Gujranwala, Gurdaspur, Amritsar, and Lyallpur, and the 1911 Census counted 7,579 Ghuman people in Sialkot District alone plus over twelve villages in Gurdaspur and Sangrur.`
       },
       {
-        terms: ["1947", "partition", "india", "pakistan", "14 million", "border", "1950", "britain", "ireland", "canada", "gulf", "train"],
-        reply: `${BOT_IDENTITY} In August 1947 a new border split Punjab between Pakistan and India, with about 14 million people crossing new borders and Sialkot in Pakistan and Gurdaspur in India; from the 1950s onward, families also moved to places including Britain, Ireland, Canada, the US, and Gulf countries.`
+        terms: ["1947", "partition", "india", "pakistan", "14 million", "border", "1950", "britain", "ireland", "canada", "gulf", "train", "refugee"],
+        reply: `${BOT_IDENTITY} In August 1947, a new border split Punjab between Pakistan and India, forcing many families to leave homes quickly as roughly 14 million people crossed new borders. The border placed Sialkot in Pakistan and Gurdaspur in India, reshaping where families lived before and after 1947, while starting in the 1950s Ghuman families also moved from Punjab to Britain, Ireland, Canada, the US, and Gulf countries.`
       },
       {
-        terms: ["source", "sources", "proof", "evidence", "archive", "archives", "familysearch", "ancestry", "oral", "elder", "map", "maps", "spelling", "ghauman", "ghamman", "check"],
-        reply: `${BOT_IDENTITY} The presentation checks oral stories with elders against written records and maps—including the 1911 Census, district gazetteers, UK National Archives, UNESCO Silk Roads Programme, Encyclopaedia Britannica, and FamilySearch/Ancestry—while checking map years and spelling variants like Ghuman, Ghumman, and Ghamman.`
+        terms: ["source", "sources", "proof", "evidence", "archive", "archives", "familysearch", "ancestry", "oral", "elder", "map", "maps", "spelling", "ghauman", "ghamman", "check", "proven"],
+        reply: `${BOT_IDENTITY} The presentation tests oral stories against primary and secondary sources—including the 1911 Punjab Census, Sialkot and Gurdaspur district gazetteers, UK National Archives records, UNESCO Silk Roads Programme, Encyclopaedia Britannica, and FamilySearch/Ancestry—while checking map years, spelling differences (Ghuman, Ghumman, Ghamman), and three proof checks (when people moved, which towns they passed, and written books listing the name).`
       }
     ];
 
@@ -249,6 +278,11 @@ Rules:
     syncViewportLayout();
     window.addEventListener("resize", syncViewportLayout);
 
+    function isGreeting(q) {
+      const t = q.toLowerCase().trim();
+      return ["hi", "hello", "hey", "yo", "sup", "good morning", "good afternoon", "good evening"].includes(t);
+    }
+
     function asksCreator(q) {
       const t = q.toLowerCase();
       return (
@@ -276,13 +310,14 @@ Rules:
 
     function isClearlyUnrelated(q) {
       const t = q.toLowerCase();
-      if (asksCreator(t) || asksIdentity(t)) return false;
+      if (asksCreator(t) || asksIdentity(t) || isGreeting(t)) return false;
       const allowedTopicWords = [
         "russia", "russian", "eurasia", "eurasian", "pakistan", "india", "punjab", "partition",
         "1947", "1911", "1894", "1950", "ghuman", "ghumman", "ghamman", "sialkot", "gurdaspur",
         "gujranwala", "amritsar", "lyallpur", "sangrur", "jammu", "delhi", "silk road", "khyber",
         "samarkand", "bukhara", "census", "gazetteer", "archive", "history", "historical", "cba",
-        "migration", "migrate", "map", "maps", "source", "sources", "family", "oral", "presentation", "slide"
+        "migration", "migrate", "map", "maps", "source", "sources", "family", "oral", "presentation",
+        "slide", "when", "date", "year", "happen", "happened", "proof", "record", "records"
       ];
       if (allowedTopicWords.some((w) => t.includes(w))) return false;
       return UNRELATED_TERMS.some((w) => t.includes(w));
@@ -317,13 +352,16 @@ Rules:
     function fallbackFromDeck(q) {
       if (asksCreator(q)) return `${CREATOR_NAME} created this presentation.`;
       if (asksIdentity(q)) return BOT_IDENTITY;
+      if (isGreeting(q)) {
+        return `${BOT_IDENTITY} Ask me about dates, Eurasia routes, Punjab records, the 1911 census, the 1947 Partition, or sources.`;
+      }
       if (isClearlyUnrelated(q)) return "Question not related";
 
       const t = q.toLowerCase();
       let best = null;
       let bestScore = 0;
 
-      for (const m of TOPIC_MATCHERS) {
+      for (const m of DETAILED_TOPICS) {
         let score = 0;
         for (const term of m.terms) {
           if (t.includes(term)) score += 1;
@@ -341,7 +379,7 @@ Rules:
         .map((item) => item.content.toLowerCase())
         .join(" ");
 
-      for (const m of TOPIC_MATCHERS) {
+      for (const m of DETAILED_TOPICS) {
         if (m.terms.some((term) => priorUserText.includes(term))) {
           return m.reply;
         }
@@ -350,19 +388,78 @@ Rules:
       return "Question not related";
     }
 
+    async function fetchWithTimeout(url, options, timeoutMs = 6000) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        const res = await fetch(url, { ...options, signal: controller.signal });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res;
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
     async function fetchFreeModel(messages) {
-      const response = await fetch("https://text.pollinations.ai/openai/chat/completions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "openai",
-          messages,
-          temperature: 0.2
-        })
-      });
-      if (!response.ok) throw new Error(`Status ${response.status}`);
-      const json = await response.json();
-      return json?.choices?.[0]?.message?.content || "";
+      const endpoints = [
+        {
+          url: "https://text.pollinations.ai/openai/chat/completions",
+          body: { model: "openai", messages, temperature: 0.2 }
+        },
+        {
+          url: "https://text.pollinations.ai/",
+          isPlainPrompt: true
+        }
+      ];
+
+      for (const ep of endpoints) {
+        try {
+          if (ep.isPlainPrompt) {
+            const promptText =
+              messages.map((m) => `${m.role.toUpperCase()}: ${m.content}`).join("\n\n") +
+              "\n\nASSISTANT:";
+            const res = await fetchWithTimeout(
+              ep.url,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  messages,
+                  model: "openai",
+                  temperature: 0.2
+                })
+              },
+              6000
+            );
+            const contentType = res.headers.get("content-type") || "";
+            if (contentType.includes("application/json")) {
+              const json = await res.json();
+              const text = json?.choices?.[0]?.message?.content || json?.content || "";
+              if (text.trim()) return text;
+            } else {
+              const text = await res.text();
+              if (text.trim()) return text;
+            }
+          } else {
+            const res = await fetchWithTimeout(
+              ep.url,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(ep.body)
+              },
+              6000
+            );
+            const json = await res.json();
+            const text = json?.choices?.[0]?.message?.content || "";
+            if (text.trim()) return text;
+          }
+        } catch (_) {
+          // Try next endpoint
+        }
+      }
+
+      throw new Error("All free model endpoints timed out or failed");
     }
 
     async function answerQuestion(q) {
